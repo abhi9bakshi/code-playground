@@ -95,6 +95,7 @@ $(document).ready(function(){
 	}else{
 		/* Setup the Environment */
 		setupEnv(htmleditor, jseditor, csseditor);
+    setResource("https://code.jquery.com/jquery-3.2.1.min.js");
 	}
 
 	/* Check for Smaller Screen Resolution and set display accordingly */
