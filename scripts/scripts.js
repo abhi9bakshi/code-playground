@@ -184,7 +184,7 @@ $(document).ready(function(){
 
 	/* Show Help */
 	$("#help_button").on("click",function(){
-		window.open(window.location.href + '#help', '_blank');
+		window.open(window.location.href.split("#")[0] + '#help', '_blank');
 		reset();
 	});
 	/* ************************ Tabs Handler ************************ */
