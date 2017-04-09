@@ -1,0 +1,118 @@
+﻿Flex Alignment - Align Self
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    Flexbox
+  </h1>
+  <p>
+    Flex Alignment - Align Self 
+  </p>
+</header>
+
+
+<p>
+	Align Self
+</p>
+<p>
+  <i>flex-start, flex-end, center, baseline, stretch</i>
+</p>
+<div class="flex-start">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+</div>
+
+
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+
+.flex-start{
+  display: flex;
+  border: 3px solid black;
+  height: 15rem;
+}
+
+
+.box:nth-child(1){
+  padding: 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #ffd5d3;
+  color: black;
+  align-self: flex-start;
+}
+
+
+.box:nth-child(2){
+  padding: 2rem 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #d3ffeb;
+  color: black;
+  align-self: flex-end;
+}
+
+
+.box:nth-child(3){
+  width: 100px;
+  padding: 3rem 0.8rem;
+  text-align: center;
+  background-color: #ffd3fe;
+  color: black;
+  align-self: center;
+}
+
+
+.box:nth-child(4){
+  padding: 1.6rem 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #faffd3;
+  color: black;
+  align-self: baseline;
+}
+
+
+.box:nth-child(5){
+  padding: 1.2rem 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #d3d8ff;
+  color: black;
+  align-self: stretch;
+}
+
+

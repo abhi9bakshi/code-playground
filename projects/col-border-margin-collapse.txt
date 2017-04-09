@@ -1,0 +1,289 @@
+col-border-margin-collapse
+```
+https://fonts.googleapis.com/css?family=Raleway
+https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+```
+<div id="search">
+  <input type="text" name="search" placeholder="search">
+  <div id="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-sm-6 col-xs-12 project">
+      <div class="content">
+        <div class="background"></div>
+        <h2 class="title">JS Events - An Overview</h2>
+        <p class="type"><i class="fa fa-circle js" aria-hidden="true"></i>JS</p>
+        <p class="timestamp">22 March 2016,<br/> 11:05 PM</p>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-sm-6 col-xs-12 project">
+      <div class="content">
+        <div class="background"></div>
+        <h2 class="title">CSS Grid - A comprehensive introduction</h2>
+        <p class="type"><i class="fa fa-circle css" aria-hidden="true"></i>CSS</p>
+        <p class="timestamp">22 March 2016,<br/> 11:05 PM</p>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-sm-6 col-xs-12 project">
+      <div class="content">
+        <div class="background"></div>
+        <h2 class="title">CSS Grid - A comprehensive introduction with add extracts and rich honey protein to make your hair silky smooth</h2>
+        <p class="type"><i class="fa fa-circle css" aria-hidden="true"></i>CSS</p>
+        <p class="timestamp">22 March 2016,<br/> 11:05 PM</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+```
+$(function(){
+  $(".content").hover(
+    function(){
+      // If type is CSS
+      if($(this).children("p.type").text() === "CSS"){
+        $(this).children(".background").addClass("background-css");
+        $(this).children("p").addClass("css");
+        $(this).find("i").removeClass("css");
+        $(this).addClass("content-border-css");
+      // If type is JS
+      }else if($(this).children("p.type").text() === "JS"){
+        $(this).children(".background").addClass("background-js");
+        $(this).children("p").addClass("js");
+        $(this).find("i").removeClass("js");
+        $(this).addClass("content-border-js");
+      }
+    },
+    function(){
+      // If type is CSS
+      if($(this).children("p.type").text() === "CSS"){
+        $(this).children(".background").removeClass("background-css");
+        $(this).children("p, .title").removeClass("css");
+        $(this).find("i").addClass("css");
+        $(this).removeClass("content-border-css");
+      // If type is JS
+      }else if($(this).children("p.type").text() === "JS"){
+        $(this).children(".background").removeClass("background-js");
+        $(this).children("p, .title").removeClass("css");
+        $(this).find("i").addClass("js");
+        $(this).removeClass("content-border-js");
+      }
+    });
+});
+
+```
+/******************* CSS Reset *******************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+*{
+  box-sizing: border-box!important;
+}
+
+/**************** Styling Rules *****************/
+body{
+  background-color: #eee;
+  color: black;
+  font-family: 'Raleway', sans-serif;
+}
+
+/** Search Bar Styling **/
+#search{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5rem;
+  box-shadow: 2px 0px 2px 0px black;
+  z-index: 2;
+}
+
+#search input{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2.5rem;
+  width: calc(100% - 2.5rem);
+  margin: 0;
+  padding: 0 0.5rem;
+  border: none;
+}
+
+#search div#search_button{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  background-color: #111;
+  color: #eee;
+  transition: background-color 300ms ease;
+}
+
+#search div#search_button:hover{
+  cursor: pointer;
+}
+
+#search div#search_button:active{
+  background-color: #444;
+}
+
+/** Grid Styling **/
+.container{
+  position: absolute;
+  top: 5.5rem;
+  left: 5%;
+  width: 90%;
+  /*border: 1px solid red;*/
+}
+
+.project{
+  /*border: 1px solid blue;*/
+}
+
+.content{
+  position: relative;
+  z-index: 1;
+  margin: 1rem auto;
+  max-width: 25rem;
+  background-color: white;
+  border: 1px solid transparent;
+  box-shadow: 2px 2px 2px #bbb;
+  transition: border 100ms ease;
+}
+.content-border-js{
+  border: 1px solid #f3df49;
+}
+.content-border-css{
+  border: 1px solid #33a9dc;
+}
+
+
+
+.content:hover{
+  cursor: pointer;
+}
+
+.background{
+  z-index: -1;
+  height: 0rem;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  transition: height 100ms ease-in, background-color 200ms ease-in;
+}
+
+.background-js{
+  height: 4rem;
+  background-color: #f3df49;
+  transition: height 100ms ease-in, background-color 200ms ease-in;
+}
+.background-css{
+  height: 4rem;
+  background-color: #33a9dc;
+  transition: height 100ms ease-in, background-color 200ms ease-in;
+}
+
+.content .title{
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 3rem 1rem 8rem;
+}
+
+.content p{
+  display: inline-block;
+  /*border: 1px solid maroon;*/
+  width: 50%;
+  height: 4rem;
+  color: black;
+  transition: color 100ms ease-in;
+}
+
+.content p.js, .content .title.js{
+  color: black;
+}
+.content p.css, .content .title.css{
+  color: white;
+}
+
+.content .type{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.content .type i{
+  transition: color 100ms ease-in;
+  padding-right: 8px;
+}
+
+.content .type i.js{
+  color: #f3df49;
+}
+.content .type i.css{
+  color: #33a9dc;
+}
+
+.content .timestamp{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
+  text-align: right;
+}
+
+```
+css
+```
+material
+```
+side-by-side

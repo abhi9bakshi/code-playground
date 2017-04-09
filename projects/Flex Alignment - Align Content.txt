@@ -1,0 +1,260 @@
+﻿Flex Alignment - Align Content
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    Flexbox
+  </h1>
+  <p>
+    Flex Alignment - Align Content 
+  </p>
+</header>
+
+
+<p>
+	Align Content - Stretch
+</p>
+<div class="stretch">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+<p>
+	Align Content - Flex Start
+</p>
+<div class="flex-start">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+<p>
+	Align Content - Flex End
+</p>
+<div class="flex-end">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+<p>
+	Align Content - Center
+</p>
+<div class="center">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+<p>
+	Align Content - Space Between
+</p>
+<div class="space-between">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+<p>
+	Align Content - Space Around
+</p>
+<div class="space-around">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+
+.stretch{
+  display: flex;
+  border: 3px solid black;
+  height: 300px;
+  width: 600px;
+  flex-wrap: wrap;
+  align-content: stretch;
+}
+
+.flex-start{
+  display: flex;
+  border: 3px solid black;
+  height: 300px;
+  width: 600px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.flex-end{
+  display: flex;
+  border: 3px solid black;
+  height: 300px;
+  width: 600px;
+  flex-wrap: wrap;
+  align-content: flex-end;
+}
+
+.center{
+  display: flex;
+  border: 3px solid black;
+  height: 300px;
+  width: 600px;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.space-between{
+  display: flex;
+  border: 3px solid black;
+  height: 300px;
+  width: 600px;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+
+.space-around{
+  display: flex;
+  border: 3px solid black;
+  height: 300px;
+  width: 600px;
+  flex-wrap: wrap;
+  align-content: space-around;
+}
+
+
+.box:nth-child(5n){
+  padding: 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #ffd5d3;
+  color: black;
+}
+
+
+.box:nth-child(5n + 1){
+  padding: 1rem 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #d3ffeb;
+  color: black;
+}
+
+
+.box:nth-child(5n + 2){
+  width: 100px;
+  padding: 1.2rem 0.8rem;
+  text-align: center;
+  background-color: #ffd3fe;
+  color: black;
+}
+
+
+.box:nth-child(5n + 3){
+  padding: 1.1rem 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #faffd3;
+  color: black;
+}
+
+
+.box:nth-child(5n + 4){
+  padding: 0.8rem;
+  text-align: center;
+  width: 100px;
+  background-color: #d3d8ff;
+  color: black;
+}
+
+

@@ -1,0 +1,139 @@
+﻿CSS Grid - Order
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    CSS Grid
+  </h1>
+  <p>
+	Order
+  </p>
+</header>
+
+
+<p>
+	Order all even items to bottom
+</p>
+<div class="grid">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+
+.grid{
+  border: 3px solid black;
+  display: inline-grid;
+  grid-template-columns: 6rem 6rem 6rem;
+  grid-template-rows: 5rem 5rem 5rem 5rem;
+}
+
+.box{
+  text-align: center;
+  box-sizing: border-box;
+  color: black;
+  padding: 0.8rem;
+}
+
+
+.box:nth-child(2n){
+  order: 1;
+}
+
+.box:nth-child(1){
+  background-color: #ffd5d3;
+}
+
+
+.box:nth-child(2){
+  background-color: #d3ffeb;
+}
+
+
+.box:nth-child(3){
+  background-color: #ffd3fe;
+}
+
+
+.box:nth-child(4){
+  background-color: #faffd3;
+}
+
+
+.box:nth-child(5){
+  background-color: #d3d8ff;
+}
+
+.box:nth-child(6){
+  background-color: #ffd5d3;
+}
+
+
+.box:nth-child(7){
+  background-color: #d3ffeb;
+}
+
+
+.box:nth-child(8){
+  background-color: #ffd3fe;
+}
+
+
+.box:nth-child(9){
+  background-color: #faffd3;
+}
+
+.box:nth-child(10){
+  background-color: #d3d8ff;
+}
+
+.box:nth-child(11){
+  background-color: #ffd5d3;
+}
+
+.box:nth-child(12){
+  background-color: #d3ffeb;
+}
+

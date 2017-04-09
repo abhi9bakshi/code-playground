@@ -1,0 +1,144 @@
+﻿Flexbox Wrap
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    Flexbox
+  </h1>
+  <p>
+    Flex Wrap 
+  </p>
+</header>
+
+<p>
+	No-Wrap
+</p>
+<div class="flex-nowrap">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+	<div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+    <div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+	<div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+<p>
+	Wrap
+</p>
+<div class="flex-wrap">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+	<div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+    <div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+	<div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+<p>
+	Wrap Reverse
+</p>
+<div class="flex-wrap-reverse">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+	<div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+    <div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+	<div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+.flex-nowrap{
+  display: flex;
+  border: 3px solid #111;
+  flex-direction: row;
+  width: 400px;
+  flex-wrap: nowrap;
+}
+
+.flex-wrap{
+  display: flex;
+  border: 3px solid #111;
+  flex-direction: row;
+  width: 400px;
+  flex-wrap: wrap;
+}
+
+
+.flex-wrap-reverse{
+  display: flex;
+  border: 3px solid #111;
+  flex-direction: row;
+  width: 400px;
+  flex-wrap: wrap-reverse;
+}
+
+
+.box:nth-child(3n){
+  width: 50px;
+  height: 50px;
+  background-color: #968900;
+}
+
+
+.box:nth-child(3n + 1){
+  width: 50px;
+  height: 50px;
+  background-color: #960000;
+}
+
+
+.box:nth-child(3n + 2){
+  width: 50px;
+  height: 50px;
+  background-color: #009632;
+}
+

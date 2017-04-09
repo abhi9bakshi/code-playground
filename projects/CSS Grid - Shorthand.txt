@@ -1,0 +1,243 @@
+﻿CSS Grid - Shorthand
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    CSS Grid
+  </h1>
+  <p>
+	Shorthand
+  </p>
+</header>
+
+
+<p>
+	Grid Shorthand <i>(grid: grid-row1 grid-row2 ... / grid-column1 grid-column2 ...)</i>
+</p>
+<div class="grid-shorthand">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+<p>
+	Grid Shorthand using Repeat <i>(grid: repeat(times, grid-row) / repeat(times, grid-column))</i>
+</p>
+<div class="grid-shorthand-repeat">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+	<div class="box">Box 7</div>
+	<div class="box">Box 8</div>
+    <div class="box">Box 9</div>
+    <div class="box">Box 10</div>
+	<div class="box">Box 11</div>
+	<div class="box">Box 12</div>
+</div>
+
+
+<p>
+	Grid Shorthand for row, column
+</p>
+<p>
+  Here, <b>Box 1</b> is positioned using grid shorthand <i>(grid-row</i> : <i>grid-row-start / grid-row-end)</i> and <i>(grid-column</i> : <i>grid-column-start / grid-column-end)</i>
+</p>
+<p>
+  <b>Box 2</b> is positioned using grid shorthand <i>(grid-area</i> : <i>grid-row-start / grid-column-start / grid-row-end / grid-column-end)</i>
+</p>
+<p>
+  <b>Box 3</b> is positioned using <i>span</i> instead of <i>grid-row-end</i> and <i>grid-column-end</i>
+</p>
+<div class="grid-shorthand-rxc">
+	<div class="sbox">Box 1</div>
+	<div class="sbox">Box 2</div>
+	<div class="sbox">Box 3</div>
+</div>
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+
+.grid-shorthand{
+  border: 3px solid black;
+  display: inline-grid;
+  grid: 5rem 1rem 5rem 1rem 5rem 1rem 5rem / 6rem 1rem 6rem 1rem 6rem;
+}
+
+.grid-shorthand-repeat{
+  border: 3px solid black;
+  display: inline-grid;
+  grid: 5rem repeat(3, 1rem 5rem) / 6rem repeat(2, 1rem 6rem);
+}
+
+.grid-shorthand-rxc{
+  border: 3px solid black;
+  display: inline-grid;
+  grid: 5rem repeat(3, 1rem 5rem) / 5rem repeat(3, 1rem 5rem);
+}
+
+
+.box, .sbox{
+  text-align: center;
+  box-sizing: border-box;
+  color: black;
+  padding: 0.8rem;
+}
+
+.sbox:nth-child(1){
+  grid-row: 3/4;
+  grid-column: 3/4;
+  background-color: #ffd5d3;
+}
+
+.sbox:nth-child(2){
+  grid-area: 5/5/6/6;
+  background-color: #d3ffeb;
+}
+
+.sbox:nth-child(3){
+  grid-area: 5/1/span 3/span 3;
+  background-color: #ffd3fe;
+}
+
+.box:nth-child(1){
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background-color: #ffd5d3;
+}
+
+
+.box:nth-child(2){
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background-color: #d3ffeb;
+}
+
+
+.box:nth-child(3){
+  grid-column-start: 5;
+  grid-column-end: 6;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background-color: #ffd3fe;
+}
+
+
+.box:nth-child(4){
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  background-color: #faffd3;
+}
+
+.box:nth-child(5){
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  background-color: #d3d8ff;
+}
+
+.box:nth-child(6){
+  grid-column-start: 5;
+  grid-column-end: 6;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  background-color: #ffd5d3;
+}
+
+
+.box:nth-child(7){
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 5;
+  grid-row-end: 6;
+  background-color: #d3ffeb;
+}
+
+
+.box:nth-child(8){
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 5;
+  grid-row-end: 6;
+  background-color: #ffd3fe;
+}
+
+
+.box:nth-child(9){
+  grid-column-start: 5;
+  grid-column-end: 6;
+  grid-row-start: 5;
+  grid-row-end: 6;
+  background-color: #faffd3;
+}
+
+.box:nth-child(10){
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 7;
+  grid-row-end: 8;
+  background-color: #d3d8ff;
+}
+
+.box:nth-child(11){
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 7;
+  grid-row-end: 8;
+  background-color: #ffd5d3;
+}
+
+.box:nth-child(12){
+  grid-column-start: 5;
+  grid-column-end: 6;
+  grid-row-start: 7;
+  grid-row-end: 8;
+  background-color: #d3ffeb;
+}
+

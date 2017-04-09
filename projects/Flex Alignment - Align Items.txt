@@ -1,0 +1,175 @@
+﻿Flex Alignment - Align Items
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    Flexbox
+  </h1>
+  <p>
+    Flex Alignment - Align Items 
+  </p>
+</header>
+
+
+<p>
+	Align Items - Flex Start
+</p>
+<div class="flex-start">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+</div>
+
+
+
+<p>
+	Align Items - Flex End
+</p>
+<div class="flex-end">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+</div>
+
+
+
+<p>
+	Align Items - Center
+</p>
+<div class="center">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+</div>
+
+
+<p>
+	Align Items - Baseline
+</p>
+<div class="baseline">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+</div>
+
+
+
+<p>
+	Align Items - Stretch (Default)
+</p>
+<div class="stretch">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+</div>
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+
+.flex-start{
+  display: flex;
+  border: 3px solid black;
+  height: 15rem;
+  align-items: flex-start;
+}
+
+
+.flex-end{
+  display: flex;
+  border: 3px solid black;
+  height: 15rem;
+  align-items: flex-end;
+}
+
+
+.center{
+  display: flex;
+  border: 3px solid black;
+  height: 15rem;
+  align-items: center;
+}
+
+
+.baseline{
+  display: flex;
+  border: 3px solid black;
+  height: 15rem;
+  align-items: baseline;
+}
+
+.stretch{
+  display: flex;
+  border: 3px solid black;
+  height: 15rem;
+  align-items: stretch;
+}
+
+
+.box:nth-child(1){
+  padding: 1rem;
+  text-align: center;
+  width: 100px;
+  background-color: #ffd5d3;
+  color: black;
+}
+
+.box:nth-child(2){
+  padding: 2rem 1rem;
+  text-align: center;
+  width: 100px;
+  background-color: #d3ffeb;
+  color: black;
+}
+
+
+.box:nth-child(3){
+  width: 100px;
+  padding: 3rem 1rem;
+  text-align: center;
+  background-color: #ffd3fe;
+  color: black;
+}
+
+.box:nth-child(4){
+  padding: 1.5rem;
+  text-align: center;
+  width: 100px;
+  background-color: #faffd3;
+  color: black;
+}
+
+

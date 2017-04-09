@@ -1,0 +1,202 @@
+/******************* CSS Reset *******************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+*{
+  box-sizing: border-box!important;
+}
+
+/**************** Styling Rules *****************/
+body{
+  background-color: #eee;
+  font-family: 'Raleway', sans-serif;
+}
+
+/** Search Bar Styling **/
+#search{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5rem;
+  box-shadow: 2px 0px 2px 0px black;
+  z-index: 2;
+}
+
+#search input{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2.5rem;
+  width: calc(100% - 2.5rem);
+  margin: 0;
+  padding: 0 0.5rem;
+  border: none;
+}
+
+#search div#search_button{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  background-color: #111;
+  color: #eee;
+  transition: background-color 300ms ease;
+}
+
+#search div#search_button:hover{
+  cursor: pointer;
+}
+
+#search div#search_button:active{
+  background-color: #444;
+}
+
+/** Grid Styling **/
+.container{
+  position: absolute;
+  top: 5.5rem;
+  left: 5%;
+  width: 90%;
+  /*border: 1px solid red;*/
+}
+
+.project{
+  /*border: 1px solid blue;*/
+}
+
+.content{
+  position: relative;
+  z-index: 1;
+  margin: 1rem auto;
+  max-width: 25rem;
+  background-color: white;
+  border: 1px solid transparent;
+  box-shadow: 2px 2px 2px #bbb;
+  transition: border 100ms ease;
+}
+.content-border-js{
+  border: 1px solid #f3df49;
+}
+.content-border-css{
+  border: 1px solid #33a9dc;
+}
+
+
+
+.content:hover{
+  cursor: pointer;
+}
+
+.background{
+  z-index: -1;
+  height: 0rem;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  transition: height 100ms ease-in, background-color 200ms ease-in;
+}
+
+.background-js{
+  height: 4rem;
+  background-color: #f3df49;
+  transition: height 100ms ease-in, background-color 200ms ease-in;
+}
+.background-css{
+  height: 4rem;
+  background-color: #33a9dc;
+  transition: height 100ms ease-in, background-color 200ms ease-in;
+}
+
+.content .title{
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 3rem 1rem 8rem;
+}
+
+.content p{
+  display: inline-block;
+  /*border: 1px solid maroon;*/
+  width: 50%;
+  height: 4rem;
+  color: black;
+  transition: color 100ms ease-in;
+}
+
+.content p.js, .content .title.js{
+  color: black;
+}
+.content p.css, .content .title.css{
+  color: white;
+}
+
+.content .type{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.content .type i{
+  transition: color 100ms ease-in;
+  padding-right: 8px;
+}
+
+.content .type i.js{
+  color: #f3df49;
+}
+.content .type i.css{
+  color: #33a9dc;
+}
+
+.content .timestamp{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
+  text-align: right;
+}

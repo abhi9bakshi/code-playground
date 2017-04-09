@@ -1,0 +1,36 @@
+/* View: Side by Side */
+.tabbed-html{
+	font-family: 'Inconsolata', monospace;
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 2.5rem);
+}
+
+.tabbed-js{
+	font-family: 'Inconsolata', monospace;
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 2.5rem);
+}
+
+.tabbed-css{
+	font-family: 'Inconsolata', monospace;
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 2.5rem);
+}
+
+.tabbed-result-box{
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	width: 100%;
+	background-color: white;
+	height: calc(100% - 2.5rem);
+}

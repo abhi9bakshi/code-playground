@@ -1,0 +1,168 @@
+﻿Flex Items Flexibility
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    Flexbox
+  </h1>
+  <p>
+    Flex Items Flexibility 
+  </p>
+</header>
+
+<p>
+	Default Flexibility
+</p>
+<div class="default-flexibility">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+	<div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+</div>
+
+
+<p>
+	Flex Grow (Grow child 2 and 3 in the ratio 2:1 to fill parent)
+</p>
+<div class="flex-grow">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+	<div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+</div>
+
+
+<p>
+	Flex Shrink (Shrink child 2 and 3 to fit parent)
+</p>
+<div class="flex-shrink">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+	<div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+</div>
+
+
+<p>
+	Flex Basis (Set initial size for child 2 and 3)
+</p>
+<div class="flex-basis">
+	<div class="box">Box 1</div>
+	<div class="box">Box 2</div>
+	<div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+	<div class="box">Box 5</div>
+	<div class="box">Box 6</div>
+</div>
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+.default-flexibility{
+  display: flex;
+  border: 3px solid #111;
+  width: 600px;
+  flex-flow: row wrap;
+}
+
+.flex-grow{
+  display: flex;
+  border: 3px solid #111;
+  width: 600px;
+  flex-flow: row wrap;
+}
+
+.flex-grow div.box:nth-child(2){
+  flex-grow: 2;
+}
+
+
+.flex-grow div.box:nth-child(3){
+  flex-grow: 1;
+}
+
+.flex-shrink{
+  display: flex;
+  border: 3px solid #111;
+  width: 280px;
+}
+
+.flex-shrink div.box:nth-child(2){
+  flex-shrink: 10;
+}
+
+.flex-shrink div.box:nth-child(3){
+  flex-shrink: 10;
+}
+
+
+.flex-basis{
+  display: flex;
+  border: 3px solid #111;
+  width: 600px;
+  flex-flow: row wrap;
+}
+
+.flex-basis div.box:nth-child(2){
+  flex-basis: 10rem;
+}
+
+
+.flex-basis div.box:nth-child(3){
+  flex-basis: 15rem;
+}
+
+
+.box:nth-child(3n){
+  width: 50px;
+  height: 50px;
+  background-color: #968900;
+}
+
+
+.box:nth-child(3n + 1){
+  width: 50px;
+  height: 50px;
+  background-color: #960000;
+}
+
+
+.box:nth-child(3n + 2){
+  width: 50px;
+  height: 50px;
+  background-color: #009632;
+}

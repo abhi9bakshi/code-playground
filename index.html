@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Code Playground</title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+<!-- Custom Font -->
+ <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
+
+<!-- Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha256-0rguYS0qgS6L4qVzANq4kjxPLtvnp5nn2nB5G1lWRv4=" crossorigin="anonymous"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous" />
+
+<!-- FileSaver -->
+<script src="scripts/blob.js" ></script>
+<script src="scripts/filesaver.js" ></script>
+
+<!-- Keyboard Shortcut Keys Handler -->
+<script src="scripts/shortcuts.js" ></script>
+
+<!-- Codemirror -->
+<link rel="stylesheet" href="addon/show-hint.css">
+<link rel="stylesheet" href="styles/codemirror.css">
+<script src="scripts/codemirror.js" ></script>
+
+<!-- Codemirror Addons -->
+<script src="addon/show-hint.js"></script>
+<script src="addon/xml-hint.js"></script>
+<script src="addon/javascript-hint.js"></script>
+<script src="addon/html-hint.js"></script>
+<script src="addon/closetag.js"></script>
+<script src="addon/closebrackets.js"></script>
+<script src="addon/xml-fold.js"></script>
+<script src="addon/matchbrackets.js"></script>
+<script src="addon/matchtags.js"></script>
+
+<!-- Codemirror Modes -->
+<script src="mode/javascript.js"></script>
+<script src="mode/css.js"></script>
+<script src="mode/vbscript.js"></script>
+<script src="mode/xml.js"></script>
+<script src="mode/htmlmixed.js"></script>
+
+<!-- Codemirror Themes -->
+<link rel="stylesheet" href="theme/eclipse.css">
+<link rel="stylesheet" href="theme/material.css">
+<link rel="stylesheet" href="theme/monokai.css">
+
+<!-- Codeplayground Views -->
+<link rel="stylesheet" href="views/grid.css">
+<link rel="stylesheet" href="views/side-by-side.css">
+<link rel="stylesheet" href="views/top-and-bottom.css">
+<link rel="stylesheet" href="views/tabbed.css">
+
+
+<!-- Custom Styles -->
+<link rel="stylesheet" href="styles/styles.css">
+
+</head>
+
+<body>
+
+
+<div id="logo">
+	<p>CP</p>
+<!-- 	<img src="media/images/js_logo.jpg" alt="js_logo"> -->
+</div>
+
+<header>
+	<h2>Code Playground</h2>
+
+	<ul id="nav-right">
+		<li id="run_button">
+		    <i class="fa fa-play" title="Run" aria-hidden="true"></i>
+		</li>
+		<li id="external_resource_button">
+		    <i class="fa fa-plus-circle" title="Add External Resource" aria-hidden="true"></i>
+		</li>
+		<li id="view_button">
+		    <i class="fa fa-th-large" title="View" aria-hidden="true"></i>
+		</li>
+		<li id="theme_button">
+		    <i class="fa fa-paint-brush" title="Theme" aria-hidden="true"></i>
+		</li>
+		<li id="clear_button">
+		    <i class="fa fa-trash" title="Clear All" aria-hidden="true"></i>
+		</li>
+		<li id="help_button">
+		    <i class="fa fa-question-circle" title="Help" aria-hidden="true"></i>
+		</li>
+	</ul>
+</header>
+
+<div id="external_resource">
+	<p>Add external JS/CSS here</p>
+<!--
+	<div class="external_resource_list">
+		<input type="text" name="External Resource" value="https://code.jquery.com/jquery-3.2.1.js">
+		<div><img src="media/icons/plus.png"></div>
+	</div>
+ -->
+ 	<div id="external_resource_input">
+		<input type="text" name="External Resource" placeholder="*.js or *.css">
+		<img src="media/icons/plus.png">
+	</div>
+</div>
+
+<ul id="themes">
+	<li id="eclipse">
+		Eclipse
+	</li>
+	<li id="material">
+		Material
+	</li>
+	<li id="monokai">
+		Monokai
+	</li>
+</ul>
+
+<ul id="views">
+	<li id="grid">
+		<i class="fa fa-th-large" aria-hidden="true"></i>Grid
+	</li>
+	<li id="side-by-side">
+		<i class="fa fa-pause" aria-hidden="true"></i>Side by Side
+	</li>
+	<li id="top-and-bottom">
+		<i class="fa fa-pause rotate-90" aria-hidden="true"></i>Top and Bottom
+	</li>
+	<li id="tabbed">
+		<i class="fa fa-ellipsis-h" aria-hidden="true"></i>Tabbed
+	</li>
+</ul>
+
+
+
+<section id="playground">
+
+	<!-- Codemirror Windows -->
+	<textarea id="html_box"></textarea>
+
+	<textarea id="js_box"></textarea>
+
+	<textarea id="css_box"></textarea>
+
+	<!-- Other Playground Items -->
+	<div id="tabs-3" class="tabs">
+		<ul>
+			<li id="html">HTML</li>
+			<li id="js" class="active-li">JS</li>
+			<li id="css">CSS</li>
+		</ul>
+	</div>
+
+	<div id="tabs-4" class="tabs">
+		<ul>
+			<li id="html">HTML</li>
+			<li id="js" class="active-li">JS</li>
+			<li id="css">CSS</li>
+			<li id="result">Result</li>
+		</ul>
+	</div>
+
+	<div id="bg-border"></div>
+
+   	<div id="result_box"></div>
+
+	<div id="resources_box"></div>
+</section>
+
+<footer>
+	<h2>Abhinav Bakshi (abhi9bakshi@gmail.com)</h2>
+
+	<ul id="load">
+		<li title="Upload">
+			<label for="file-upload" class="custom-file-upload">
+    	    	<i class="fa fa-upload" aria-hidden="true"></i>
+    		</label>
+		    <input style="display: none" type="file" id="file-upload" />
+		</li>
+		<li title="Download" id="file-download">
+		    <i class="fa fa-download" aria-hidden="true"></i>
+		</li>
+	</ul>
+
+	<ul id="links">
+		<li>
+			<a href="https://www.linkedin.com/in/abhi9bakshi" class="social-links">
+			    <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+			</a>
+		</li>
+		<li>
+			<a href="https://www.facebook.com/abhi9bakshi" class="social-links">
+			    <i class="fa fa-facebook-square" aria-hidden="true"></i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/abhi9bakshi" class="social-links">
+			    <i class="fa fa-twitter-square" aria-hidden="true"></i>
+			</a>
+		</li>
+	</ul>
+</footer>
+
+<div id="savefile">
+		<input type="text" id="file-name" placeholder="file name" />
+		<div id="save-button">
+			<p>save</p>
+		</div>
+</div>
+
+<!-- Custom Script -->
+<script src="scripts/srcdoc_polyfill.js"></script>
+<script src="scripts/scripts.js"></script>
+</body>
+
+</html>

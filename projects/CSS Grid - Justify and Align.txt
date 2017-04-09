@@ -1,0 +1,226 @@
+﻿CSS Grid - Justify and Align
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+	<h1>
+      CSS Grid
+  </h1>
+  <p>
+    Grid Alignment - Justify and Align
+  </p>
+</header>
+
+<div id="content-dropdown">
+  <p>
+  	Justify Content :
+  </p>
+   
+  <select id="justify-content">
+    <option value="stretch">stretch</option>
+    <option value="start">start</option>
+    <option value="end">end</option>
+    <option value="center">center</option>
+    <option value="space-between">space-between</option>
+    <option value="space-around">space-around</option>
+  </select>  
+  
+  <br />
+  
+  <p>
+  	Align Content :
+  </p>
+   
+  <select id="align-content">
+    <option value="stretch">stretch</option>
+    <option value="start">start</option>
+    <option value="end">end</option>
+    <option value="center">center</option>
+    <option value="space-between">space-between</option>
+    <option value="space-around">space-around</option>
+  </select>  
+  
+  <br />
+  
+  <p>
+  	Justify Items :
+  </p>
+   
+  <select id="justify-items">
+    <option value="stretch">stretch</option>
+    <option value="start">start</option>
+    <option value="end">end</option>
+    <option value="center">center</option>
+    <option value="baseline">baseline</option>
+  </select>  
+  
+  <br />
+  
+  <p>
+  	Align Items :
+  </p>
+   
+  <select id="align-items">
+    <option value="stretch">stretch</option>
+    <option value="start">start</option>
+    <option value="end">end</option>
+    <option value="center">center</option>
+    <option value="baseline">baseline</option>
+  </select>  
+  
+  <br />
+  
+  <p>
+  	Justify Self :
+  </p>
+   
+  <select id="justify-self">
+    <option value="stretch">stretch</option>
+    <option value="start">start</option>
+    <option value="end">end</option>
+    <option value="center">center</option>
+    <option value="baseline">baseline</option>
+  </select>  
+  
+  <select id="justify-self-element">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+  </select>  
+
+    
+  <p>
+  	Align Self :
+  </p>
+   
+  <select id="align-self">
+    <option value="stretch">stretch</option>
+    <option value="start">start</option>
+    <option value="end">end</option>
+    <option value="center">center</option>
+    <option value="baseline">baseline</option>
+  </select>  
+
+  <select id="align-self-element">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+  </select>  
+  
+</div>
+
+<div id="content">
+	<div class="box">Box 1</div>
+  	<div class="box">Box 2</div>
+  	<div class="box">Box 3</div>
+  	<div class="box">Box 4</div>
+  	<div class="box" style="padding: 2rem;">Box 5</div>
+  	<div class="box">Box 6</div>
+  	<div class="box">Box 7</div>
+  	<div class="box">Box 8</div>
+  	<div class="box">Box 9</div>  
+</div>
+```
+$(function(){
+  var padding = $(window).height()/2 - 63;
+  $("header").css("padding", padding + "px 0 " + padding + "px");
+  
+  $('#justify-content').on('change', function() {
+    $("#content").css("justify-content", $('#justify-content').val());
+  });
+
+  $('#align-content').on('change', function() {
+    $("#content").css("align-content", this.value);
+  });
+  
+  $('#justify-items').on('change', function() {
+    $("#content").css("justify-items", this.value);
+  });
+
+  $('#align-items').on('change', function() {
+    $("#content").css("align-items", this.value);
+  });
+
+  $('#justify-self, #justify-self-element').on('change', function() {
+    var jvalue = $("#justify-self").val();
+    var jelem = $("#justify-self-element").val();
+    $("#content div:nth-child(" + jelem + ")").css("justify-self", jvalue);
+  });
+  
+  $('#align-self, #align-self-element').on('change', function() {
+    var avalue = $("#align-self").val();
+    var aelem = $("#align-self-element").val();
+    $("#content div:nth-child(" + aelem  + ")").css("align-self", avalue);
+  });
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%;
+  text-align: center;
+}
+
+header h1{
+  font-size: 3rem;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+#content-dropdown{
+  display: grid;
+  grid: repeat(6, 1.5rem) / 2fr 4fr 1fr;
+  margin: 1rem 0;
+}
+
+#content-dropdown p{
+	padding: 0;
+  	margin: 0;
+}
+
+#content{
+  border: 3px solid black;
+  display: grid;
+  height: 400px;
+  grid: auto auto auto / auto auto auto;
+  justify-content: stretch;
+}
+
+.box{
+  color: black;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+
+.box:nth-child(4n){
+	background-color: #ffd5d3;
+}
+.box:nth-child(4n + 1){
+	background-color: #d3d8ff;
+}
+.box:nth-child(4n + 2){
+	background-color: #faffd3;
+}
+.box:nth-child(4n + 3){
+	background-color: #d3ffeb;
+}

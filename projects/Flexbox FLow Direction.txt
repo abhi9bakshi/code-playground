@@ -1,0 +1,126 @@
+﻿Flexbox FLow Direction
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    Flexbox
+  </h1>
+  <p>
+    Flexbox Flow Direction
+  </p>
+</header>
+
+<p>
+  Row - Left to Right
+</p>
+<div class="flexbox-row-ltr">
+	<div id="box1">Box 1</div>
+	<div id="box2">Box 2</div>
+	<div id="box3">Box 3</div>
+</div>
+
+<p>
+  Row - Right to Left
+</p>
+<div class="flexbox-row-rtl">
+	<div id="box1">Box 1</div>
+	<div id="box2">Box 2</div>
+	<div id="box3">Box 3</div>
+</div>
+
+
+<p>
+  Column - Left to Right
+</p>
+<div class="flexbox-col-ltr">
+	<div id="box1">Box 1</div>
+	<div id="box2">Box 2</div>
+	<div id="box3">Box 3</div>
+</div>
+
+
+<p>
+  Col - Right to Left
+</p>
+<div class="flexbox-col-rtl">
+	<div id="box1">Box 1</div>
+	<div id="box2">Box 2</div>
+	<div id="box3">Box 3</div>
+</div>
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+.flexbox-row-ltr{
+  display: inline-flex;
+  border: 3px solid #111;
+  flex-direction: row;
+}
+
+.flexbox-row-rtl{
+  display: inline-flex;
+  border: 3px solid #111;
+  flex-direction: row-reverse;
+}
+
+.flexbox-col-ltr{
+  display: inline-flex;
+  border: 3px solid #111;
+  flex-direction: column;
+}
+
+.flexbox-col-rtl{
+  display: inline-flex;
+  border: 3px solid #111;
+  flex-direction: column-reverse;
+}
+
+
+#box1{
+  width: 50px;
+  height: 50px;
+  background-color: #968900;
+}
+
+
+#box2{
+  width: 50px;
+  height: 50px;
+  background-color: #960000;
+}
+
+
+#box3{
+  width: 50px;
+  height: 50px;
+  background-color: #009632;
+}
+

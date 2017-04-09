@@ -1,0 +1,36 @@
+/* View: Side by Side */
+.top-and-bottom-html{
+	font-family: 'Inconsolata', monospace;
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	width: 100%;
+	height: calc(50% - 2.5rem);
+}
+
+.top-and-bottom-js{
+	font-family: 'Inconsolata', monospace;
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	width: 100%;
+	height: calc(50% - 2.5rem);
+}
+
+.top-and-bottom-css{
+	font-family: 'Inconsolata', monospace;
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	width: 100%;
+	height: calc(50% - 2.5rem);
+}
+
+.top-and-bottom-result-box{
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	background-color: white;
+	height: 50%;
+}

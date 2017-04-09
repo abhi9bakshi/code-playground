@@ -1,0 +1,105 @@
+﻿Simple Flexbox Container
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    Flexbox
+  </h1>
+  <p>
+    Simple Flexbox Container
+  </p>
+</header>
+
+<p>
+  Simple Container
+</p>
+<div class="simple-container">
+	<div id="box1"></div>
+	<div id="box2"></div>
+	<div id="box3"></div>
+</div>
+
+<p>
+  Flex Container
+</p>
+<div class="flex-container">
+	<div id="box1"></div>
+	<div id="box2"></div>
+	<div id="box3"></div>
+</div>
+
+<p>
+  Inline Flex Container
+</p>
+<div class="inline-flex-container">
+	<div id="box1"></div>
+	<div id="box2"></div>
+	<div id="box3"></div>
+</div>
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+.simple-container{
+  display: block;
+  border: 3px solid #111;
+}
+
+.flex-container{
+  display: flex;
+    border: 3px solid #111;
+}
+
+.inline-flex-container{
+  display: inline-flex;
+    border: 3px solid #111;
+}
+
+
+#box1{
+  width: 50px;
+  height: 50px;
+  background-color: #ff7777;
+}
+
+
+#box2{
+  width: 50px;
+  height: 50px;
+  background-color: #77ff77;
+}
+
+
+#box3{
+  width: 50px;
+  height: 50px;
+  background-color: #77ffff;
+}
+

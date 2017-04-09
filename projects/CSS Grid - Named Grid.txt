@@ -1,0 +1,155 @@
+﻿CSS Grid - Named Grid
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Quicksand
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+```
+<header>
+  <h1>
+    CSS Grid
+  </h1>
+  <p>
+	Named Grid
+  </p>
+</header>
+
+
+<p>
+	In the first example, we define a css-grid and name the points which we intend to use for positioning. Later, for each of the grid items, we use the same names as the start and end points for positioning.
+</p>
+<div class="named-grid">
+	<div class="box">Header</div>
+	<div class="box">Sidebar Left</div>
+  	<div class="box">Content</div>
+	<div class="box">Sidebar Right</div>
+	<div class="box">Footer</div>
+</div>
+
+
+<p>
+	In the second example, we define a css-grid but name the grid elements which we intend to use for positioning. Later, we use the <i>grid-template-areas</i> keyword to position the named elements.
+</p>
+<div class="named-grid-items">
+	<div class="sbox">Header</div>
+	<div class="sbox">Sidebar Left</div>
+  	<div class="sbox">Content</div>
+	<div class="sbox">Sidebar Right</div>
+	<div class="sbox">Footer</div>
+</div>
+
+```
+$(function(){
+  var padding = $(window).height()/2 - 60;
+  $("header").css("padding-top", padding + "px");
+  $("header").css("padding-bottom", padding + "px");
+});
+```
+body{
+  background-color: #399bdc;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%
+}
+header h1{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+header p{
+  text-align: center;
+}
+
+
+.named-grid{
+  border: 3px solid black;
+  display: grid;
+  grid: [row-header] 5rem [row-header-end] 1rem [row-content] 20rem [row-content-end] 1rem [row-footer] 5rem [row-footer] / [col-side-left] 8rem [col-side-left-end] 1rem [col-content] auto [col-content] 1rem [col-side-right] 8rem [col-side-right-end];
+}
+
+.named-grid-items{
+  border: 3px solid black;
+  display: grid;
+  grid: 5rem 1rem 20rem 1rem 5rem / 8rem 1rem auto 1rem 8rem;
+  grid-template-areas:  "header header header header header"
+    					". . . . ."
+    					"sidebar-left . content . sidebar-right"
+    					". . . . ."
+    					"footer footer footer footer footer";
+}
+
+.box, .sbox{
+  text-align: center;
+  box-sizing: border-box;
+  color: black;
+  padding: 0.8rem;
+}
+
+.box:nth-child(1){
+  grid-column-start: col-side-left;
+  grid-column-end: col-side-right-end;
+  grid-row-start: row-header;
+  grid-row-end: row-header-end;
+  background-color: #ffd5d3;
+}
+
+
+.box:nth-child(2){
+  grid-column: col-side-left / col-side-left-end;
+  grid-row: row-content / row-content-end;
+  background-color: #d3ffeb;
+}
+
+
+.box:nth-child(3){
+  grid-column: col-content 1 / col-content 2;
+  grid-row: row-content / row-content-end;
+  background-color: #ffd3fe;
+}
+
+
+.box:nth-child(4){
+  grid-column: col-side-right / col-side-right-end;
+  grid-row: row-content / row-content-end;
+  background-color: #faffd3;
+}
+
+.box:nth-child(5){
+  grid-area: row-footer 1 / col-side-left / row-footer 2 / col-side-right-end;
+  background-color: #d3d8ff;
+}
+
+
+.sbox:nth-child(1){
+  grid-area: header;
+  background-color: #ffd5d3;
+}
+
+
+.sbox:nth-child(2){
+  grid-area: sidebar-left;
+  background-color: #d3ffeb;
+}
+
+
+.sbox:nth-child(3){
+  grid-area: content;
+  background-color: #ffd3fe;
+}
+
+
+.sbox:nth-child(4){
+  grid-area: sidebar-right;
+  background-color: #faffd3;
+}
+
+.sbox:nth-child(5){
+  grid-area: footer;
+  background-color: #d3d8ff;
+}
+
