@@ -1,0 +1,365 @@
+project
+```
+https://code.jquery.com/jquery-3.2.1.min.js
+https://fonts.googleapis.com/css?family=Raleway
+https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+```
+<div id="search">
+  <input type="text" name="search" placeholder="search">
+  <div id="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+        
+    <div class="col-md-4 col-sm-6 col-xs-12 parent item">
+      <div class="row">
+      	<div class="col-xs-12 child-title">
+            <div class="background"></div>
+            <h2 class="title">CSS Flexbox</h2>
+            <p class="type"><i class="fa fa-circle css-icon" aria-hidden="true"></i>CSS</p>
+            <p class="timestamp">22 March 2016,<br/> 11:05 PM</p>          
+        </div>
+        <div class="col-xs-12 child-list">
+        	<p>Chapter 1 - What is Flex</p>
+          	<p>Chapter 2 - Positioning</p>
+         	<p>Chapter 3 - Assignment</p>
+          	<p>Chapter 4 - Conclusion</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12 parent item">
+      <div class="row">
+      	<div class="col-xs-12 child-title">
+            <div class="background"></div>
+            <h2 class="title">JS Events - An Overview</h2>
+            <p class="type"><i class="fa fa-circle js-icon" aria-hidden="true"></i>JS</p>
+            <p class="timestamp">22 March 2016,<br/> 11:05 PM</p>          
+        </div>
+        <div class="col-xs-12 child-list">
+        	<p>Chapter 1 - Introduction</p>
+          	<p>Chapter 2 - Lets learn JS</p>
+         	<p>Chapter 3 - Grid and Definition</p>
+          	<p>Chapter 4 - Some other Stuff</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+```
+$(function(){
+  //Search
+  $('input[name=search]').keyup(function() {
+    search($(this).val().toLowerCase());
+  });
+  
+  //Expand Item
+  $(".row").on("click",".parent", function(){
+    //reset other parents
+	resetParent();
+    $(this).removeClass("parent").addClass("parent-expand");
+  });
+  
+  //Collapse Item
+  $(".row").on("click",".parent-expand", function(){
+    //reset other parents
+	resetParent();
+  });
+  
+  //Launch Project
+  $(".child-list p").on("click", function(e){
+    e.stopPropagation();
+    console.log("blah");
+  });
+  
+  //Hover on Item
+  $(".parent .row").hover(onHover,offHover);
+});
+  
+  
+function resetParent(){
+  $(".parent-expand").each(function(){
+    //$(this).find(".child-title").removeClass("col-md-4");
+    //$(this).find(".child-list").removeClass("col-md-8");
+  });
+  $(".parent-expand").removeClass("parent-expand").addClass("parent");
+}
+
+function onHover(){
+  // If type is CSS
+  if($(this).find("p.type").text() === "CSS"){
+    $(this).find(".background").addClass("css-bg");
+    $(this).find("p").addClass("css-text");
+    $(this).find("i").removeClass("css-icon");
+    // If type is JS
+  }else if($(this).find("p.type").text() === "JS"){
+    $(this).find(".background").addClass("js-bg");
+    $(this).find("p").addClass("js-text");
+    $(this).find("i").removeClass("js-icon");
+  }
+}
+
+function offHover(){
+  // If type is CSS
+  if($(this).find("p.type").text() === "CSS"){
+    $(this).find(".background").removeClass("css-bg");
+    $(this).find("p").removeClass("css-text");
+    $(this).find("i").addClass("css-icon");
+    // If type is JS
+  }else if($(this).find("p.type").text() === "JS"){
+    $(this).find(".background").removeClass("js-bg");
+    $(this).find("p").removeClass("css-text");
+    $(this).find("i").addClass("js-icon");
+  }
+}
+
+function search(value){
+  $(".item").hide();
+  
+  $(".item").each(function(){
+    if( $(this).find("h2").text().toLowerCase().indexOf(value) >= 0 || $(this).find("p").text().toLowerCase().indexOf(value) >= 0){
+      $(this).show();
+    }
+  });
+}
+```
+/******************* CSS Reset *******************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body{
+  box-sizing: border-box!important;
+}
+
+/**************** Styling Rules *****************/
+body{
+  background-color: #eee;
+  color: black;
+  font-family: 'Raleway', sans-serif;
+}
+
+.container{
+  margin: 1rem;
+  width: calc(100% - 2rem);
+}
+
+/********* Search Bar Styling ***********/
+#search{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5rem;
+  box-shadow: 2px 0px 2px 0px black;
+  z-index: 10;
+}
+
+#search input{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2.5rem;
+  width: calc(100% - 2.5rem);
+  margin: 0;
+  padding: 0 0.5rem;
+  border: none;
+}
+
+#search div#search_button{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  background-color: #111;
+  color: #eee;
+  transition: background-color 300ms ease;
+}
+
+#search div#search_button:hover{
+  cursor: pointer;
+}
+
+#search div#search_button:active{
+  background-color: #444;
+}
+
+
+/**************** Parent ****************/
+.container{
+  margin-top: 3rem;
+}
+
+.parent{
+  margin: 1rem 0;
+}
+
+.parent .row{
+  margin: 0 auto;
+  max-width: 25rem;
+  background-color: white;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px 0 #ccc;
+}
+
+.parent .child-title h2{
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 4rem 1rem 4rem;  
+}
+
+.parent .child-title p{
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  width: calc(50% - 3px);
+  padding-bottom: 1rem;
+  color: black;
+}
+
+.parent .child-title p:nth-child(3) i{
+  padding-right: 8px;
+}
+
+.parent .child-title p:nth-child(4){
+  text-align: right;
+}
+
+.parent .css-icon{  color: #33a9dc!important;  transition: color 200ms ease-in;  }
+.parent  .js-icon{  color: #f3df49!important;  transition: color 200ms ease-in;  }
+.parent .css-text{  color: white!important;  transition: color 200ms ease-in;  }
+.parent  .js-text{  color: black!important;  transition: color 200ms ease-in;  }
+
+.parent .background{
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #f3df49;  
+  transition: height 200ms ease-in, bottom 200ms ease-in;
+}
+
+.parent .css-bg{  
+  background-color: #33a9dc;  
+  height: 4rem;
+  z-index: 1;
+  transition: height 400ms ease-out 100ms, bottom 500ms ease-out;
+}
+.parent .js-bg{  
+  background-color: #f3df49;  
+  height: 4rem;
+  z-index: 1;
+  transition: height 400ms ease-out 100ms, bottom 500ms ease-out;
+}
+
+.parent .child-list{
+  display: none;
+}
+
+/*********** Expanded Parent ************/
+.parent-expand{
+  margin: 1rem 0;
+}
+
+.parent-expand .row{
+  margin: 0 auto;
+  max-width: 25rem;
+  background-color: white;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px 0 #ccc;
+}
+
+.parent-expand .child-title h2{
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 4rem 1rem 4rem;
+}
+
+.parent-expand .child-title p{
+  display: none;
+}
+
+.parent-expand .child-list{
+  display: block;
+  padding-bottom: 1rem;
+}
+
+.parent-expand .child-list p{
+  line-height: 3rem;
+  border-bottom: 1px solid #aaa;
+  text-indent: 0.8rem;
+  transition: background-color 100ms ease-in;
+}
+
+.parent-expand .child-list p:hover{
+  background-color: #f3f3f3;
+}
+
+.parent-expand .child-list p:last-child{
+ border-bottom: none;
+}
+
+.parent-expand .background{
+  z-index: 10;
+  height: 2%;
+  width: 100%;
+  position: absolute;
+  bottom: 98%;
+  left: 0;
+  overflow: none;
+  background-color: #f3df49;  
+  transition: bottom 500ms ease-in, height 500ms ease-in;
+}
+```
+html
+```
+material
+```
+tabbed

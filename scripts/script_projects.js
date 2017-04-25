@@ -30,4 +30,12 @@ $(function(){
         $(this).removeClass("content-border-js");
       }
     });
+
+    $(".project").hover(
+      function(){
+        $(this).removeClass("col-sm-6 col-lg-4 fixed-maxwidth");
+      },
+      function(){
+        $(this).addClass("col-sm-6 col-lg-4 fixed-maxwidth");
+      });
 });

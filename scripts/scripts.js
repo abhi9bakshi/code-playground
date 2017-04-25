@@ -94,15 +94,16 @@ $(document).ready(function(){
 		loadFileAJAX(window.location.href.split("#")[1], htmleditor, jseditor, csseditor);
 	}else{
 		/* Setup the Environment */
-		setupEnv(htmleditor, jseditor, csseditor);
-    setResource("https://code.jquery.com/jquery-3.2.1.min.js");
+		loadFileAJAX("help", htmleditor, jseditor, csseditor);
+		//setupEnv(htmleditor, jseditor, csseditor);
+    	//setResource("https://code.jquery.com/jquery-3.2.1.min.js");
 	}
 
 	/* Check for Smaller Screen Resolution and set display accordingly */
 	if (Modernizr.mq('(max-width: 840px)')) {
 		$("header h2, footer h2, footer #links, #nav-right li:nth-child(3)").hide();
-		VIEW = "tabbed";
-		changeView(VIEW, 1);
+    VIEW = "tabbed";
+    changeView(VIEW, 1);
 		changeTheme(THEME, htmleditor, jseditor, csseditor);
 		refresh();
 		setFocus();
@@ -277,25 +278,25 @@ $(document).ready(function(){
 	});
 
 	// SWITCH TABS
-	shortcut.add("CTRL+1",function() {
+	shortcut.add("ALT+1",function() {
 		ACTIVE = "html";
 		switchTab(ACTIVE, VIEW);
 		refresh();
 		setFocus();
 	});
-	shortcut.add("CTRL+2",function() {
+	shortcut.add("ALT+2",function() {
 		ACTIVE = "js";
 		switchTab(ACTIVE, VIEW);
 		refresh();
 		setFocus();
 	});
-	shortcut.add("CTRL+3",function() {
+	shortcut.add("ALT+3",function() {
 		ACTIVE = "css";
 		switchTab(ACTIVE, VIEW);
 		refresh();
 		setFocus();
 	});
-	shortcut.add("CTRL+4",function() {
+	shortcut.add("ALT+4",function() {
 		ACTIVE = "result";
 		switchTab(ACTIVE, VIEW);
 		refresh();
@@ -303,25 +304,25 @@ $(document).ready(function(){
 	});
 
 	// CHANGE VIEW
-	shortcut.add("ALT+1",function() {
+	shortcut.add("CTRL+1",function() {
 		VIEW = "grid";
 		changeView(VIEW);
 		refresh();
 		setFocus();
 	});
-	shortcut.add("ALT+2",function() {
+	shortcut.add("CTRL+2",function() {
 		VIEW = "side-by-side";
 		changeView(VIEW);
 		refresh();
 		setFocus();
 	});
-	shortcut.add("ALT+3",function() {
+	shortcut.add("CTRL+3",function() {
 		VIEW = "top-and-bottom";
 		changeView(VIEW);
 		refresh();
 		setFocus();
 	});
-	shortcut.add("ALT+4",function() {
+	shortcut.add("CTRL+4",function() {
 		VIEW = "tabbed";
 		changeView(VIEW);
 		refresh();
@@ -345,46 +346,52 @@ $(document).ready(function(){
 
 
 /* ************************ Media Queries ************************ */
-	var viewbuffer = undefined;
-	var rtime;
-	var timeout = false;
-	var delta = 200;
-	$( window ).resize(function() {
-      	if (Modernizr.mq('(max-width: 840px)')) {
-    		$("header h2, footer h2, footer #links, #nav-right li:nth-child(3)").hide();
-    	}else{
-    		$("header h2, footer h2, footer #links, #nav-right li:nth-child(3)").show();
-		}
-		rtime = new Date();
-	    if (timeout === false) {
-	        timeout = true;
-	        setTimeout(resizeend, delta);
-	    }
-	});
-	function resizeend() {
-	    if (new Date() - rtime < delta) {
-	        setTimeout(resizeend, delta);
-	    } else {
-	        timeout = false;
-	        // alert('Done resizing');
-          	if (Modernizr.mq('(max-width: 840px)')) {
-	    		viewbuffer = VIEW;
-	    		VIEW = "tabbed";
-	    		changeView(VIEW, 1);
-				changeTheme(THEME, htmleditor, jseditor, csseditor);
-				refresh();
-				setFocus();
-	    	}else{
-	    		if(viewbuffer !== undefined){
-	    		  	VIEW = viewbuffer;
-	    		  	setupEnv(htmleditor, jseditor, csseditor);
-	    		}
-	    	}
-	    }
+var resize;
+var viewbuffer = undefined;
+$( window ).resize(function() {
+    	if (Modernizr.mq('(max-width: 840px)')) {
+  		$("header h2, footer h2, footer #links, #nav-right li:nth-child(3)").hide();
+  	}else{
+  		$("header h2, footer h2, footer #links, #nav-right li:nth-child(3)").show();
 	}
+    if(resize) {
+        clearTimeout(resize);
+        resize = null;
+    }
 
+    resize = setTimeout(function(){
+    	if (Modernizr.mq('(max-width: 840px)')) {
+        if(VIEW !== "tabbed"){
+          viewbuffer = VIEW;
+        }
+    		VIEW = "tabbed";
+    		changeView(VIEW, 1);
+			changeTheme(THEME, htmleditor, jseditor, csseditor);
+			refresh();
+			setFocus();
+    	}else{
+    		if(viewbuffer !== undefined){
+    		  	VIEW = viewbuffer;
+    		  	setupEnv(htmleditor, jseditor, csseditor);
+    		}
+    	}
+    }, 500);
+});
 
 /* ************************ Helper Functions ************************ */
+  /* AutoRun after last keypress */
+  var autorun;
+  $(document).keyup(function() {
+      if(autorun) {
+          clearTimeout(autorun);
+          autorun = null;
+      }
+
+      autorun = setTimeout(function(){
+        $("#run_button").trigger("click");
+      }, 5000);
+  });
+
 	/* Reset Dropdowns */
 	function reset(){
 		$("#external_resource, #themes, #views").hide();
@@ -432,8 +439,6 @@ function setLogoColor(){
 	// Fetch iframe colors
 	var foreground = $('#result_box iframe').contents().find('body').css('color');
 	var background = $('#result_box iframe').contents().find('body').css('backgroundColor');
-
-	// alert(foreground + " " + background);
 
 	//Set Logo color
 	if(foreground != "transparent" && foreground != "rgba(0, 0, 0, 0)" && background != "transparent" && background != "rgba(0, 0, 0, 0)" && foreground !== background){
@@ -611,9 +616,9 @@ function loadFileAJAX(file, htmleditor, jseditor, csseditor){
 			htmleditor.getDoc().setValue(result[2]);
 			jseditor.getDoc().setValue(result[3]);
 			csseditor.getDoc().setValue(result[4]);
-			if(result[5]){  ACTIVE = result[5];  };
+			if(result[5]){  ACTIVE = result[5];  }
 			if(result[6]){  THEME = result[6];   }
-			if(result[7]){  VIEW = result[7];    }
+			if(result[7] && !Modernizr.mq('(max-width: 840px)')){  VIEW = result[7];    }
 			setupEnv(htmleditor, jseditor, csseditor);
 			execute(htmleditor, jseditor, csseditor);
 		},
