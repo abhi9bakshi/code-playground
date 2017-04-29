@@ -1066,8 +1066,23 @@ function clearActiveTab(){
 	$(".html-editor, .js-editor, .css-editor, #result_box").hide();
 }
 
+function setFullScreen(element){
+	if(htmlEditor.hasClass("fullscreen") || jsEditor.hasClass("fullscreen") || cssEditor.hasClass("fullscreen") || resultBox.hasClass("fullscreen")){
+		htmlEditor.removeClass("fullscreen");
+		jsEditor.removeClass("fullscreen");
+		cssEditor.removeClass("fullscreen");
+		resultBox.removeClass("fullscreen");
+
+		if(element === "html")  { htmlEditor.addClass("fullscreen"); }
+		if(element === "js")    {   jsEditor.addClass("fullscreen"); }
+		if(element === "css")   {  cssEditor.addClass("fullscreen"); }
+		if(element === "result"){  resultBox.addClass("fullscreen"); }
+	}
+}
+
 function switchTab(element, view){
 	clearActiveTab();
+	setFullScreen(element);
 
 	if(view === "grid"){
 		// show all boxes
