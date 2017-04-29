@@ -500,6 +500,8 @@ function addResizable(view, destroy){
 		$(" #tabs-4").css("width", "100%");
 	}
 
+	var title = $("header h2").text();
+
 	if(view === "grid"){
 		var fontsize = $("body").css('font-size').split("px")[0];
 
@@ -514,9 +516,12 @@ function addResizable(view, destroy){
 				$('iframe').css('pointer-events','none');
 				},
 			stop: function(event, ui) {
+				$("header h2").text(title);
 				$('iframe').css('pointer-events','auto');
 			},
-			resize: function(event, ui){
+			resize: function(event, ui){				
+				$("header h2").text($(resultBox).width() + " x " + $(resultBox).height());
+
 				var currentHeight = ui.size.height;
 				var currentWidth = ui.size.width;
 				
@@ -606,9 +611,11 @@ function addResizable(view, destroy){
 				$('iframe').css('pointer-events','none');
 				},
 			stop: function(event, ui) {
+				$("header h2").text(title);
 				$('iframe').css('pointer-events','auto');
 			},
 			resize: function(event, ui){
+				$("header h2").text($(resultBox).width() + " x " + $(resultBox).height());
 				var currentWidth = ui.size.width;
 				
 				// this accounts for some lag in the ui.size value, if you take this away 
@@ -629,9 +636,11 @@ function addResizable(view, destroy){
 				$('iframe').css('pointer-events','none');
 				},
 			stop: function(event, ui) {
+				$("header h2").text(title);
 				$('iframe').css('pointer-events','auto');
 			},
 			resize: function(event, ui){
+				$("header h2").text($(resultBox).width() + " x " + $(resultBox).height());
 				var currentWidth = ui.size.width;
 				
 				// this accounts for some lag in the ui.size value, if you take this away 
@@ -652,9 +661,11 @@ function addResizable(view, destroy){
 				$('iframe').css('pointer-events','none');
 				},
 			stop: function(event, ui) {
+				$("header h2").text(title);
 				$('iframe').css('pointer-events','auto');
 			},
 			resize: function(event, ui){
+				$("header h2").text($(resultBox).width() + " x " + $(resultBox).height());
 				var currentWidth = ui.size.width;
 				$(this).width(currentWidth);
 				
@@ -675,9 +686,11 @@ function addResizable(view, destroy){
 				$('iframe').css('pointer-events','none');
 				},
 			stop: function(event, ui) {
+				$("header h2").text(title);
 				$('iframe').css('pointer-events','auto');
 			},
 			resize: function(event, ui){
+				$("header h2").text($(resultBox).width() + " x " + $(resultBox).height());
 				var currentHeight = ui.size.height;
 				
 				// this accounts for some lag in the ui.size value, if you take this away 
@@ -698,9 +711,11 @@ function addResizable(view, destroy){
 				$('iframe').css('pointer-events','none');
 				},
 			stop: function(event, ui) {
+				$("header h2").text(title);
 				$('iframe').css('pointer-events','auto');
 			},
 			resize: function(event, ui){
+				$("header h2").text($(resultBox).width() + " x " + $(resultBox).height());
 				var currentHeight = ui.size.height;
 				
 				// this accounts for some lag in the ui.size value, if you take this away 
@@ -721,9 +736,11 @@ function addResizable(view, destroy){
 				$('iframe').css('pointer-events','none');
 				},
 			stop: function(event, ui) {
+				$("header h2").text(title);
 				$('iframe').css('pointer-events','auto');
 			},
 			resize: function(event, ui){
+				$("header h2").text($(resultBox).width() + " x " + $(resultBox).height());
 				var currentHeight = ui.size.height;
 				
 				// this accounts for some lag in the ui.size value, if you take this away 
