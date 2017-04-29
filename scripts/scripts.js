@@ -70,6 +70,8 @@ $(document).ready(function(){
 	$(".CodeMirror:nth-child(2)").addClass("js-editor");
 	$(".CodeMirror:nth-child(3)").addClass("css-editor");
 
+	/*Store their reference in global variable */
+	htmlEditor = $('.html-editor'), jsEditor = $('.js-editor'), cssEditor = $('.css-editor'), resultBox = $('#result_box');
 
 	/* Read configuration file to load default configuration */
 	$.ajaxSetup({  async: false  });
@@ -111,6 +113,9 @@ $(document).ready(function(){
 
 	/* Show playground */
 	$("#playground").show();
+
+	/* Make Windows Resizable */
+	addResizable(VIEW, "prevent-destroy");
 
 	/* ************************ Header Buttons Handler ************************ */
 	/* Execute Script */
@@ -256,19 +261,19 @@ $(document).ready(function(){
 	shortcut.add("F11",function() {
 		var focus = getFocus();
 		if(ACTIVE === "result"){
-			$("#result_box").addClass("fullscreen");
+			resultBox.addClass("fullscreen");
 		}
 		else if(focus === "html"){
-			$(".html-editor").addClass("fullscreen");
+			htmlEditor.addClass("fullscreen");
 			refresh();
 		}else if(focus === "js"){
-			$(".js-editor").addClass("fullscreen");
+			jsEditor.addClass("fullscreen");
 			refresh();
 		}else if(focus === "css"){
-			$(".css-editor").addClass("fullscreen");
+			cssEditor.addClass("fullscreen");
 			refresh();
 		}else{
-			$("#result_box").addClass("fullscreen");
+			resultBox.addClass("fullscreen");
 		}
 	});
 
@@ -431,6 +436,7 @@ $( window ).resize(function() {
 			csseditor.focus();
 		}
 	}
+
 });
 
 /* ------------------------------- Functions ------------------------------- */
@@ -472,11 +478,271 @@ function setupEnv(htmleditor, jseditor, csseditor){
 	}
 }
 
+//Make windows resizable
+function addResizable(view, destroy){
+
+	//Destroy existing resizable if exists and clear inline styling
+	if (htmlEditor.hasClass("ui-resizable")){
+		htmlEditor.resizable("destroy");
+	}
+	if (jsEditor.hasClass("ui-resizable")){
+		jsEditor.resizable("destroy");
+	}
+	if (cssEditor.hasClass("ui-resizable")){
+		cssEditor.resizable("destroy");
+	}
+	$(" .html-editor, .css-editor, .js-editor, #result_box").removeAttr("style");
+	if(VIEW === "side-by-side"){
+		$(" #tabs-3").css("width", "50%");
+	}else if(VIEW === "top-and-bottom"){
+		$(" #tabs-3").css("width", "100%");
+	}else if(VIEW === "tabbed"){
+		$(" #tabs-4").css("width", "100%");
+	}
+
+	if(view === "grid"){
+		var fontsize = $("body").css('font-size').split("px")[0];
+
+		htmlEditor.resizable({
+			//handles: 'e,s,se',
+			handles: 'se',
+			minWidth: 300,
+			maxWidth: $( window ).width() - 300,
+			minHeight: 200,
+			maxHeight: $( window ).height() - 5.5*fontsize - 200,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentHeight = ui.size.height;
+				var currentWidth = ui.size.width;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).height(currentHeight);
+				$(this).width(currentWidth);
+				
+				// set the other panels height and width
+				resultBox.width($( window ).width() - currentWidth - 1);
+				resultBox.height( currentHeight );
+				resultBox.css("left", currentWidth + "px" );
+				$(".js-editor, .css-editor").height($( window ).height() - 5.5*fontsize - currentHeight - 1);
+				$(".js-editor, .css-editor").css("top", currentHeight + "px" );
+				jsEditor.width( currentWidth );
+				
+				cssEditor.width( $( window ).width() - currentWidth - 1 );
+				cssEditor.css( "left", currentWidth );
+			}
+		});
+		/*
+		jsEditor.resizable({
+			handles: 'e,n',
+			minWidth: 300,
+			maxWidth: $( window ).width() - 300,
+			minHeight: 200,
+			maxHeight: $( window ).height() - 5.5*fontsize - 200,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentHeight = ui.size.height;
+				var currentWidth = ui.size.width;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).height(currentHeight);
+				$(this).width(currentWidth);
+				
+				// set the other panels height and width
+				cssEditor.width($( window ).width() - currentWidth - 1);
+				cssEditor.height( currentHeight );
+				cssEditor.css("top", jsEditor.css("top"));
+				$(".html-editor, #result_box").height($( window ).height() - 5.5*fontsize - currentHeight - 1);
+			}
+		});
+		cssEditor.resizable({
+			handles: 'w,n,nw',
+			minWidth: 300,
+			maxWidth: $( window ).width() - 300,
+			minHeight: 200,
+			maxHeight: $( window ).height() - 5.5*fontsize - 200,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentHeight = ui.size.height;
+				var currentWidth = ui.size.width;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).height(currentHeight);
+				$(this).width(currentWidth);
+				
+				// set the other panels height and width
+				jsEditor.width($( window ).width() - currentWidth - 1);
+				jsEditor.height( currentHeight );
+				jsEditor.css("top", cssEditor.css("top"));
+				$(".html-editor, #result_box").height($( window ).height() - 5.5*fontsize - currentHeight - 1);
+				//$(".js-editor, .css-editor").css("top", 0*fontsize + currentHeight + "px" );
+			}
+		});
+		*/
+	}else if(view === "side-by-side"){
+		htmlEditor.resizable({
+			alsoResize: "#tabs-3, .js-editor, .css-editor",
+			handles: 'e',
+			maxWidth: $( window ).width() - 300,
+			minWidth: 300,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentWidth = ui.size.width;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).width(currentWidth);
+				
+				// set the content panel width
+				resultBox.width($( window ).width() - currentWidth - 1);            
+				resultBox.css("left", currentWidth + "px" );
+			}
+		});
+		jsEditor.resizable({
+			alsoResize: "#tabs-3, .html-editor, .css-editor",
+			handles: 'e',
+			maxWidth: $( window ).width() - 300,
+			minWidth: 300,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentWidth = ui.size.width;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).width(currentWidth);
+				
+				// set the content panel width
+				resultBox.width($( window ).width() - currentWidth - 1);            
+				resultBox.css("left", currentWidth + "px" );
+			}
+		});
+		cssEditor.resizable({
+			alsoResize: "#tabs-3, .html-editor, .js-editor",
+			handles: 'e',
+			maxWidth: $( window ).width() - 300,
+			minWidth: 300,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentWidth = ui.size.width;
+				$(this).width(currentWidth);
+				
+				// set the result window width
+				resultBox.width($( window ).width() - currentWidth - 1);
+				resultBox.css("left", currentWidth + "px" );
+			}
+		});
+	}else if(view === "top-and-bottom"){
+		var fontsize = $("body").css('font-size').split("px")[0];
+
+		htmlEditor.resizable({
+			alsoResize: ".js-editor, .css-editor",
+			handles: 's',
+			maxHeight: $( window ).height() - 8*fontsize - 50,
+			minHeight: 50,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentHeight = ui.size.height;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).height(currentHeight);
+				
+				// set the content panel height
+				resultBox.height($( window ).height() - 5.5*fontsize - currentHeight - 1);            
+				resultBox.css("top", currentHeight + "px" );
+			}
+		});
+		jsEditor.resizable({
+			alsoResize: ".html-editor, .css-editor",
+			handles: 's',
+			maxHeight: $( window ).height() - 8*fontsize - 50,
+			minHeight: 50,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentHeight = ui.size.height;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).height(currentHeight);
+				
+				// set the content panel height
+				resultBox.height($( window ).height() - 5.5*fontsize - currentHeight - 1);            
+				resultBox.css("top", currentHeight + "px" );
+			}
+		});
+		cssEditor.resizable({
+			alsoResize: ".js-editor, .html-editor",
+			handles: 's',
+			maxHeight: $( window ).height() - 8*fontsize - 50,
+			minHeight: 50,
+			start: function(event, ui) {
+				$('iframe').css('pointer-events','none');
+				},
+			stop: function(event, ui) {
+				$('iframe').css('pointer-events','auto');
+			},
+			resize: function(event, ui){
+				var currentHeight = ui.size.height;
+				
+				// this accounts for some lag in the ui.size value, if you take this away 
+				// you'll get some instable behaviour
+				$(this).height(currentHeight);
+				
+				// set the content panel height
+				resultBox.height($( window ).height() - 5.5*fontsize - currentHeight - 1);            
+				resultBox.css("top", currentHeight + "px" );
+			}
+		});
+	}
+}
+
 function clearView(){
-	$(".html-editor").removeClass("grid-html side-by-side-html top-and-bottom-html tabbed-html");
-	$(".js-editor").removeClass("grid-js side-by-side-js top-and-bottom-js tabbed-js");
-	$(".css-editor").removeClass("grid-css side-by-side-css top-and-bottom-css tabbed-css");
-	$("#result_box").removeClass("grid-result-box side-by-side-result-box top-and-bottom-result-box tabbed-result-box");
+	htmlEditor.removeClass("grid-html side-by-side-html top-and-bottom-html tabbed-html");
+	jsEditor.removeClass("grid-js side-by-side-js top-and-bottom-js tabbed-js");
+	cssEditor.removeClass("grid-css side-by-side-css top-and-bottom-css tabbed-css");
+	resultBox.removeClass("grid-result-box side-by-side-result-box top-and-bottom-result-box tabbed-result-box");
 	$("#view_button i").removeClass("fa-pause fa-ellipsis-h fa-th-large rotate-90");
 	$(".tabs").removeClass("tabs-top-and-bottom tabs-tabbed");
 	$(".tabs").hide();
@@ -487,14 +753,24 @@ function changeView(value, allowlowres){
 	if (Modernizr.mq('(max-width: 840px)') && !allowlowres) {
 		return;
 	}
-
+	//Adjust view elements according to view
 	clearView();
+
+	//Reset resized views and set new handlers
+	addResizable(VIEW);
+
 	// Change to grid
 	if(value === "grid"){
-		$(".html-editor").addClass("grid-html");
-		$(".js-editor").addClass("grid-js");
-		$(".css-editor").addClass("grid-css");
-		$("#result_box").addClass("grid-result-box");
+
+		//Set editor windows to default size
+		htmlEditor.css("width","50%");
+		jsEditor.css("width","50%");
+		cssEditor.css("width","50%");
+
+		htmlEditor.addClass("grid-html");
+		jsEditor.addClass("grid-js");
+		cssEditor.addClass("grid-css");
+		resultBox.addClass("grid-result-box");
 
 		$("#view_button i").addClass("fa-th-large");
 
@@ -503,10 +779,10 @@ function changeView(value, allowlowres){
 	}
 	// Change to side by side
 	else if(value === "side-by-side"){
-		$(".html-editor").addClass("side-by-side-html");
-		$(".js-editor").addClass("side-by-side-js");
-		$(".css-editor").addClass("side-by-side-css");
-		$("#result_box").addClass("side-by-side-result-box");
+		htmlEditor.addClass("side-by-side-html");
+		jsEditor.addClass("side-by-side-js");
+		cssEditor.addClass("side-by-side-css");
+		resultBox.addClass("side-by-side-result-box");
 		$("#tabs-3").show();
 
 		$("#view_button i").addClass("fa-pause");
@@ -516,10 +792,10 @@ function changeView(value, allowlowres){
 	}
 	// Change to top and bottom
 	else if(value === "top-and-bottom"){
-		$(".html-editor").addClass("top-and-bottom-html");
-		$(".js-editor").addClass("top-and-bottom-js");
-		$(".css-editor").addClass("top-and-bottom-css");
-		$("#result_box").addClass("top-and-bottom-result-box");
+		htmlEditor.addClass("top-and-bottom-html");
+		jsEditor.addClass("top-and-bottom-js");
+		cssEditor.addClass("top-and-bottom-css");
+		resultBox.addClass("top-and-bottom-result-box");
 		$("#tabs-3").addClass("tabs-top-and-bottom");
 		$("#tabs-3").show();
 
@@ -530,10 +806,10 @@ function changeView(value, allowlowres){
 	}
 	// Change to tabbed
 	else if(value === "tabbed"){
-		$(".html-editor").addClass("tabbed-html");
-		$(".js-editor").addClass("tabbed-js");
-		$(".css-editor").addClass("tabbed-css");
-		$("#result_box").addClass("tabbed-result-box");
+		htmlEditor.addClass("tabbed-html");
+		jsEditor.addClass("tabbed-js");
+		cssEditor.addClass("tabbed-css");
+		resultBox.addClass("tabbed-result-box");
 		$("#tabs-4").addClass("tabs-tabbed");
 		$("#tabs-4").show();
 
@@ -808,51 +1084,51 @@ function switchTab(element, view){
 		}
 	}else if(view === "side-by-side"){
 		// show result box
-		$("#result_box").show();
+		resultBox.show();
 
 		if(element === "html"){
 			$("#tabs-3 ul li:nth-child(1)").addClass("active-li");
-			$(".html-editor").show();
+			htmlEditor.show();
 		}else if(element === "js"){
 			$("#tabs-3 ul li:nth-child(2)").addClass("active-li");
-			$(".js-editor").show();
+			jsEditor.show();
 		}else if(element === "css"){
 			$("#tabs-3 ul li:nth-child(3)").addClass("active-li");
-			$(".css-editor").show();
+			cssEditor.show();
 		}else if(element === "result"){
 			$("#tabs-3 ul li:nth-child(3)").addClass("active-li");
-			$(".css-editor").show();
+			cssEditor.show();
 		}
 	}else if(view === "top-and-bottom"){
 		// show result box
-		$("#result_box").show();
+		resultBox.show();
 
 		if(element === "html"){
 			$("#tabs-3 ul li:nth-child(1)").addClass("active-li");
-			$(".html-editor").show();
+			htmlEditor.show();
 		}else if(element === "js"){
 			$("#tabs-3 ul li:nth-child(2)").addClass("active-li");
-			$(".js-editor").show();
+			jsEditor.show();
 		}else if(element === "css"){
 			$("#tabs-3 ul li:nth-child(3)").addClass("active-li");
-			$(".css-editor").show();
+			cssEditor.show();
 		}else if(element === "result"){
 			$("#tabs-3 ul li:nth-child(3)").addClass("active-li");
-			$(".css-editor").show();
+			cssEditor.show();
 		}
 	}else if(view === "tabbed"){
 		if(element === "html"){
 			$("#tabs-4 ul li:nth-child(1)").addClass("active-li");
-			$(".html-editor").show();
+			htmlEditor.show();
 		}else if(element === "js"){
 			$("#tabs-4 ul li:nth-child(2)").addClass("active-li");
-			$(".js-editor").show();
+			jsEditor.show();
 		}else if(element === "css"){
 			$("#tabs-4 ul li:nth-child(3)").addClass("active-li");
-			$(".css-editor").show();
+			cssEditor.show();
 		}else if(element === "result"){
 			$("#tabs-4 ul li:nth-child(4)").addClass("active-li");
-			$("#result_box").show();
+			resultBox.show();
 		}
 	}
 

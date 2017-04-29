@@ -15,6 +15,10 @@
 <!-- jQuery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
 
+<!-- jQuery UI resizable -->
+<script src="scripts/vendor/jquery-ui.min.resize.js"></script>
+<link rel="stylesheet" href="styles/vendor/jquery-ui.min.resize.css">
+
 <!-- Modernizr -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha256-0rguYS0qgS6L4qVzANq4kjxPLtvnp5nn2nB5G1lWRv4=" crossorigin="anonymous"></script>
 
@@ -103,16 +107,19 @@
 
 <div id="external_resource">
 	<p>Add external JS/CSS here</p>
+ 	<div id="external_resource_input">
+		<input type="text" name="External Resource" placeholder="*.js or *.css">
+		<img src="media/icons/plus.png">
+	</div>
 <!--
+	Appended Dynamically
+	=====================
 	<div class="external_resource_list">
 		<input type="text" name="External Resource" value="https://code.jquery.com/jquery-3.2.1.js">
 		<div><img src="media/icons/plus.png"></div>
 	</div>
  -->
- 	<div id="external_resource_input">
-		<input type="text" name="External Resource" placeholder="*.js or *.css">
-		<img src="media/icons/plus.png">
-	</div>
+
 </div>
 
 <ul id="themes">
