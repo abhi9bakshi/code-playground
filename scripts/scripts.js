@@ -299,6 +299,12 @@ $(document).ready(function(){
 		execute(htmleditor, jseditor, csseditor);
 	});
 
+	//TOGGLE LIVECODE
+	shortcut.add("CTRL+F10",function() {
+		toggleLivecode();
+	});
+
+
 	// SWITCH TABS
 	shortcut.add("ALT+1",function() {
 		ACTIVE = "html";
@@ -349,6 +355,11 @@ $(document).ready(function(){
 		changeView(VIEW);
 		refresh();
 		setFocus();
+	});
+
+	// NEW
+	shortcut.add("CTRL+DELETE",function() {
+		clearContents(htmleditor, jseditor, csseditor);
 	});
 
 	// SAVE
@@ -1088,7 +1099,7 @@ function clearContents(htmleditor, jseditor, csseditor){
 		htmleditor.getDoc().setValue("");
 		jseditor.getDoc().setValue("");
 		csseditor.getDoc().setValue("");
-		$('#result_box').empty();
+		$('#result_box iframe').html("");
 		$("header h2").text("Code Playground");
 	}
 }
