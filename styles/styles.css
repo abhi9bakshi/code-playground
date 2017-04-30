@@ -44,7 +44,7 @@ table {
 
 
 /***************** Global Styles *****************/
-header, footer, .tabs, #themes, #views, #external_resource{
+header, footer, .tabs, #themes, #views, #livecode, #external_resource{
     font-family: 'Raleway', sans-serif;
 }
 
@@ -108,6 +108,7 @@ header{
 	position: absolute;
 	top: 0;
 	width: 100%;
+	height: 2.5rem;
 	line-height: 2.5rem;
 	background-color: #111;
 /*	-webkit-box-shadow: 0px 0px 8px 2px #000000;
@@ -163,14 +164,17 @@ header h2:hover{
 	height: 2.5rem;
 }
 
-header ul{
+header ul#nav-right{
+	position: absolute;
+	top: 0;
+	right: 0;
 	text-align: right;
 	background-color: #111;
 
 }
 
 header ul li{
-	display: inline-block;
+	float: left;
 	height: 2.5rem;
 	width: 2.5rem;
 	text-align: center;
@@ -237,6 +241,78 @@ header ul li:hover{
 #views li:hover{
 	cursor: pointer;
 	background-color: #333333;
+}
+
+#livecode{
+	display: none;
+	z-index: 2;
+	position: absolute;
+	width: 12.5rem;
+	height: 5rem;
+	top: 2.5rem;
+	right: 0rem;
+	background-color: #222;
+}
+
+#livecode > p:first-child{
+	color: #eee;
+	width: 10rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	text-align: center;
+	float: left;
+}
+
+#livecode_toggle{
+	float: left;
+	width: 2.5rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	text-align: center;
+	color: #eee;
+}
+
+.livecode_off{
+	color: #aaa!important;
+}
+
+.tg_btn_on{
+	background-color: #00680c;
+	-webkit-transition: background-color 0.5s ease;
+	-moz-transition: background-color 0.5s ease;
+	-o-transition: background-color 0.5s ease;
+	transition: background-color 0.5s ease;
+}
+.tg_btn_on:after{
+	content: "On";
+}
+.tg_btn_off{
+	background-color: #ba0000;	
+	-webkit-transition: background-color 0.5s ease;
+	-moz-transition: background-color 0.5s ease;
+	-o-transition: background-color 0.5s ease;
+	transition: background-color 0.5s ease;
+}
+.tg_btn_off:after{
+	content: "Off";
+}
+
+.tg_btn_on:hover{
+	cursor: pointer;
+	background-color: #00820f;	
+}
+.tg_btn_off:hover{
+	cursor: pointer;
+	background-color: #ca0000;
+}
+
+#livecode_input{
+	width: 100%;
+	height: 2.5rem;
+	padding: 0 0.5rem;
+	color: #eee;
+	background-color: #333;
+	border: none;
 }
 
 #external_resource{
