@@ -71,7 +71,10 @@ $(document).ready(function(){
 	$(".CodeMirror:nth-child(3)").addClass("css-editor");
 
 	/*Store their reference in global variable */
-	htmlEditor = $('.html-editor'), jsEditor = $('.js-editor'), cssEditor = $('.css-editor'), resultBox = $('#result_box');
+	htmlEditor = $('.html-editor');
+	jsEditor   = $('.js-editor');
+	cssEditor  = $('.css-editor');
+	resultBox  = $('#result_box');
 
 	/* Read configuration file to load default configuration */
 	$.ajaxSetup({  async: false  });
@@ -115,7 +118,7 @@ $(document).ready(function(){
 	$("#playground").show();
 
 	/* Make Windows Resizable */
-	addResizable(VIEW, "prevent-destroy");
+	addResizable(VIEW);
 
 	/* ************************ Header Buttons Handler ************************ */
 	/* Execute Script */
@@ -380,10 +383,16 @@ $( window ).resize(function() {
     		  	setupEnv(htmleditor, jseditor, csseditor);
     		}
     	}
+		addResizable(VIEW);
     }, 500);
 });
 
 /* ************************ Helper Functions ************************ */
+  /* Prevent resize events on panels from bubbling up the DOM */
+  $(".html-editor, .css-editor, .js-editor, #result_box").on('resize', function (e) {
+    e.stopPropagation(); 
+  });
+
   /* AutoRun after last keypress */
   var autorun;
   $(document).keyup(function() {
@@ -479,7 +488,7 @@ function setupEnv(htmleditor, jseditor, csseditor){
 }
 
 //Make windows resizable
-function addResizable(view, destroy){
+function addResizable(view){
 
 	//Destroy existing resizable if exists and clear inline styling
 	if (htmlEditor.hasClass("ui-resizable")){
@@ -501,10 +510,10 @@ function addResizable(view, destroy){
 	}
 
 	var title = $("header h2").text();
+	var fontsize = $("body").css('font-size').split("px")[0];
 
+	// Resize panels
 	if(view === "grid"){
-		var fontsize = $("body").css('font-size').split("px")[0];
-
 		htmlEditor.resizable({
 			//handles: 'e,s,se',
 			handles: 'se',
@@ -535,7 +544,7 @@ function addResizable(view, destroy){
 				resultBox.height( currentHeight );
 				resultBox.css("left", currentWidth + "px" );
 				$(".js-editor, .css-editor").height($( window ).height() - 5.5*fontsize - currentHeight - 1);
-				$(".js-editor, .css-editor").css("top", currentHeight + "px" );
+				$(".js-editor, .css-editor").css("top", currentHeight + 1 + "px" );
 				jsEditor.width( currentWidth );
 				
 				cssEditor.width( $( window ).width() - currentWidth - 1 );

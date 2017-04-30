@@ -63,6 +63,45 @@ header, footer, .tabs, #themes, #views, #external_resource{
 	border: none;
 }
 
+.html-editor.fullscreen:after{
+	content: "HTML";
+	color: white;
+	z-index: 2;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border-left: 1px solid #555;
+	border-bottom: 1px solid #555;
+	padding: 0.3rem 1.3rem 0.3rem 0.3rem;
+	color: #666;
+}
+
+.js-editor.fullscreen:after{
+	content: "JS";
+	color: white;
+	z-index: 2;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border-left: 1px solid #555;
+	border-bottom: 1px solid #555;
+	padding: 0.3rem 1.3rem 0.3rem 0.3rem;
+	color: #666;
+}
+
+.css-editor.fullscreen:after{
+	content: "CSS";
+	color: white;
+	z-index: 2;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border-left: 1px solid #555;
+	border-bottom: 1px solid #555;
+	padding: 0.3rem 1.3rem 0.3rem 0.3rem;
+	color: #666;
+}
+
 /***************** Header Styles *****************/
 header{
 	z-index: 1;
