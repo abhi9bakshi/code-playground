@@ -1,5 +1,5 @@
 /* Global Variables */
-THEME = "material", VIEW = "side-by-side", ACTIVE = "html";
+THEME = "material", VIEW = "side-by-side", ACTIVE = "html", LIVECODE = "on", DELAY = "500";
 
 /* Set before unload message */
 $(window).bind("beforeunload",function(event) {
@@ -159,15 +159,7 @@ $(document).ready(function(){
 	});
 
 	/* Toggle Livecode */
-	$("#livecode_toggle").on("click", function(){
-		if($("#livecode_toggle").hasClass("tg_btn_on")){
-			$("#livecode_toggle").removeClass("tg_btn_on").addClass("tg_btn_off");
-			$("#livecode_button i").addClass("livecode_off");
-		}else if($("#livecode_toggle").hasClass("tg_btn_off")){
-			$("#livecode_toggle").removeClass("tg_btn_off").addClass("tg_btn_on");
-			$("#livecode_button i").removeClass("livecode_off");
-		}
-	});
+	$("#livecode_toggle").on("click", toggleLivecode);
 
 	/* Show Themes */
 	$("#theme_button").on("click", function(){
@@ -416,16 +408,13 @@ $( window ).resize(function() {
   });
 
   /* Livecode */
-  var autorun;
-  var delay = 500;
-
-  //Get delay value
   $("#livecode_input").on('input', function() {
-    delay = $(this).val();
+	sanitizeLivecode();
   });
+  var autorun;
 
   $(document).keyup(function() {
-	  if($("#livecode_toggle").hasClass("tg_btn_on")){
+	  if(LIVECODE.toLowerCase() === "on"){
 		if(autorun) {
 			clearTimeout(autorun);
 			autorun = null;
@@ -433,7 +422,7 @@ $( window ).resize(function() {
 
 		autorun = setTimeout(function(){
 			$("#run_button").trigger("click");
-		}, delay);
+		}, DELAY);
 	  }
   });
 
@@ -516,9 +505,56 @@ function setupEnv(htmleditor, jseditor, csseditor){
 	}else{
 		csseditor.focus();
 	}
+
+	// Setup Livecode
+	var reg = /^\d+$/;
+	if(reg.test(DELAY)){
+		$("#livecode_input").val(DELAY);
+	}else{
+		DELAY = 500;
+		$("#livecode_input").val(DELAY);
+	}
+	if(LIVECODE === "on"){
+		$("#livecode_toggle").removeClass("tg_btn_off").addClass("tg_btn_on");
+		$("#livecode_button i").removeClass("livecode_off");
+	}else if(LIVECODE === "off"){
+		$("#livecode_toggle").removeClass("tg_btn_on").addClass("tg_btn_off");
+		$("#livecode_button i").addClass("livecode_off");
+	}
 }
 
-//Make windows resizable
+/* Sanitze Livecode */
+function sanitizeLivecode(){
+	var live = $("#livecode_input");
+	var reg = /^\d+$/;
+	if(reg.test(live.val())){
+		DELAY = live.val();
+	}else if(live.val()===""){
+		DELAY = 500;
+	}else{
+		var sliced = live.val().slice(0,-1);
+		if(reg.test(sliced)){
+			DELAY = sliced;
+		}else{
+			DELAY = 500;
+		}
+		live.val(DELAY);
+	}
+}
+
+/* Toggle Livecode */
+function toggleLivecode(){
+	if($("#livecode_toggle").hasClass("tg_btn_on")){
+		$("#livecode_toggle").removeClass("tg_btn_on").addClass("tg_btn_off");
+		$("#livecode_button i").addClass("livecode_off");
+		LIVECODE = "off";
+	}else if($("#livecode_toggle").hasClass("tg_btn_off")){
+		$("#livecode_toggle").removeClass("tg_btn_off").addClass("tg_btn_on");
+		$("#livecode_button i").removeClass("livecode_off");
+		LIVECODE = "on";
+	}
+}
+/* Make windows resizable */
 function addResizable(view){
 
 	//Destroy existing resizable if exists and clear inline styling
@@ -546,7 +582,6 @@ function addResizable(view){
 	// Resize panels
 	if(view === "grid"){
 		htmlEditor.resizable({
-			//handles: 'e,s,se',
 			handles: 'se',
 			minWidth: 300,
 			maxWidth: $( window ).width() - 300,
@@ -576,71 +611,11 @@ function addResizable(view){
 				resultBox.css("left", currentWidth + "px" );
 				$(".js-editor, .css-editor").height($( window ).height() - 5.5*fontsize - currentHeight - 1);
 				$(".js-editor, .css-editor").css("top", currentHeight + 1 + "px" );
-				jsEditor.width( currentWidth );
-				
+				jsEditor.width( currentWidth );				
 				cssEditor.width( $( window ).width() - currentWidth - 1 );
 				cssEditor.css( "left", currentWidth );
 			}
 		});
-		/*
-		jsEditor.resizable({
-			handles: 'e,n',
-			minWidth: 300,
-			maxWidth: $( window ).width() - 300,
-			minHeight: 200,
-			maxHeight: $( window ).height() - 5.5*fontsize - 200,
-			start: function(event, ui) {
-				$('iframe').css('pointer-events','none');
-				},
-			stop: function(event, ui) {
-				$('iframe').css('pointer-events','auto');
-			},
-			resize: function(event, ui){
-				var currentHeight = ui.size.height;
-				var currentWidth = ui.size.width;
-				
-				// this accounts for some lag in the ui.size value, if you take this away 
-				// you'll get some instable behaviour
-				$(this).height(currentHeight);
-				$(this).width(currentWidth);
-				
-				// set the other panels height and width
-				cssEditor.width($( window ).width() - currentWidth - 1);
-				cssEditor.height( currentHeight );
-				cssEditor.css("top", jsEditor.css("top"));
-				$(".html-editor, #result_box").height($( window ).height() - 5.5*fontsize - currentHeight - 1);
-			}
-		});
-		cssEditor.resizable({
-			handles: 'w,n,nw',
-			minWidth: 300,
-			maxWidth: $( window ).width() - 300,
-			minHeight: 200,
-			maxHeight: $( window ).height() - 5.5*fontsize - 200,
-			start: function(event, ui) {
-				$('iframe').css('pointer-events','none');
-				},
-			stop: function(event, ui) {
-				$('iframe').css('pointer-events','auto');
-			},
-			resize: function(event, ui){
-				var currentHeight = ui.size.height;
-				var currentWidth = ui.size.width;
-				
-				// this accounts for some lag in the ui.size value, if you take this away 
-				// you'll get some instable behaviour
-				$(this).height(currentHeight);
-				$(this).width(currentWidth);
-				
-				// set the other panels height and width
-				jsEditor.width($( window ).width() - currentWidth - 1);
-				jsEditor.height( currentHeight );
-				jsEditor.css("top", cssEditor.css("top"));
-				$(".html-editor, #result_box").height($( window ).height() - 5.5*fontsize - currentHeight - 1);
-				//$(".js-editor, .css-editor").css("top", 0*fontsize + currentHeight + "px" );
-			}
-		});
-		*/
 	}else if(view === "side-by-side"){
 		htmlEditor.resizable({
 			alsoResize: "#tabs-3, .js-editor, .css-editor",
@@ -994,6 +969,8 @@ function loadFile(htmleditor, jseditor, csseditor){
 			if(result[5]){  ACTIVE = result[5];  };
 			if(result[6]){  THEME = result[6];   }
 			if(result[7]){  VIEW = result[7];    }
+			if(result[8]){  LIVECODE = result[8];    }
+			if(result[9]){  DELAY = result[9];    }
 			setupEnv(htmleditor, jseditor, csseditor);
 			execute(htmleditor, jseditor, csseditor);
 			console.log("load file success");
@@ -1025,7 +1002,16 @@ function saveFile(htmleditor, jseditor, csseditor){
 		$("#savefile").removeClass("show-save-dialog");
 
 		$("header h2").text(filename);
-		var newfile = filename + "\n```\n" + getResource("plain") + "\n```\n" + htmleditor.getValue() + "\n```\n" + jseditor.getValue() + "\n```\n" + csseditor.getValue() + "\n```\n" + ACTIVE + "\n```\n" + THEME +  "\n```\n" + VIEW + "\n";
+		var newfile = filename + "\n```\n" + 
+					  getResource("plain") + "\n```\n" + 
+					  htmleditor.getValue() + "\n```\n" + 
+					  jseditor.getValue() + "\n```\n" + 
+					  csseditor.getValue() + "\n```\n" + 
+					  ACTIVE + "\n```\n" + 
+					  THEME +  "\n```\n" + 
+					  VIEW + "\n```\n" +
+					  LIVECODE + "\n```\n" +
+					  DELAY + "\n";
 		//var newfile = { "filename":filename, "resources":getResource("plain") };
 		var blob = new Blob([newfile], {type: "text/plain"});
 		saveAs(blob, filename + ".txt");
@@ -1044,11 +1030,7 @@ function htmlDecode(input){
 function execute(htmleditor,jseditor,csseditor){
 
 	var resource = getResource("with_tags");
-
-	var iframe = document.createElement('iframe');
-	iframe.id = "result_iframe";
-
-	//console.log("css: " + csseditor.getValue());
+	var iframe = $("#result_iframe");
 
 	content =
 '<!doctype html>' +
@@ -1070,11 +1052,8 @@ function execute(htmleditor,jseditor,csseditor){
 '</html>'
 
 	iframe.srcdoc = content;
-
-	myIframe = $('#result_box').empty().append( iframe );
 	srcDoc.set( $('#result_box iframe')[0] , content );
-
-	setTimeout(function(){ setLogoColor(); }, 1000);
+	setTimeout(function(){ setLogoColor(); }, 1000);	
 }
 
 function getResource(type){
