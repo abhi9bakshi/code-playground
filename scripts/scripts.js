@@ -91,6 +91,14 @@ $(document).ready(function(){
 			ACTIVE = data.active;
 			console.log(ACTIVE);
 		}
+		if(data.livecode){
+			LIVECODE = data.livecode;
+			console.log(LIVECODE);
+		}
+		if(data.delay){
+			DELAY = data.delay;
+			console.log(DELAY);
+		}
 	});
 	$.ajaxSetup({  async: true  });
 

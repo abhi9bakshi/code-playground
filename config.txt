@@ -1,5 +1,7 @@
 {
 "view" : "side-by-side",
 "theme" : "material",
-"active" : "result"
+"active" : "result",
+"livecode" : "on",
+"delay" : "500"
 }
