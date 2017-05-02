@@ -108,13 +108,11 @@ $(document).ready(function(){
 	}else{
 		/* Setup the Environment */
 		loadFileAJAX("help", htmleditor, jseditor, csseditor);
-		//setupEnv(htmleditor, jseditor, csseditor);
-    	//setResource("https://code.jquery.com/jquery-3.2.1.min.js");
 	}
 
 	/* Check for Smaller Screen Resolution and set display accordingly */
 	if (Modernizr.mq('(max-width: 840px)')) {
-		$("header h2, footer h2, footer #links, #nav-right li:nth-child(3)").hide();
+		$("header h2, footer h2, footer #links, #nav-right li#view_button").hide();
     VIEW = "tabbed";
     changeView(VIEW, 1);
 		changeTheme(THEME, htmleditor, jseditor, csseditor);
@@ -389,8 +387,9 @@ $(document).ready(function(){
 /* ************************ Media Queries ************************ */
 var resize;
 var viewbuffer = undefined;
+var lock = false;
 $( window ).resize(function() {
-    	if (Modernizr.mq('(max-width: 840px)')) {
+	if (Modernizr.mq('(max-width: 840px)')) {
   		$("header h2, footer h2, footer #links, #nav-right li#view_button").hide();
   	}else{
   		$("header h2, footer h2, footer #links, #nav-right li#view_button").show();
@@ -402,21 +401,25 @@ $( window ).resize(function() {
 
     resize = setTimeout(function(){
     	if (Modernizr.mq('(max-width: 840px)')) {
-        if(VIEW !== "tabbed"){
-          viewbuffer = VIEW;
-        }
-    		VIEW = "tabbed";
+			if(lock === false){ viewbuffer = VIEW; }
+			lock = true;
+			VIEW = "tabbed";
     		changeView(VIEW, 1);
-			changeTheme(THEME, htmleditor, jseditor, csseditor);
 			refresh();
 			setFocus();
-    	}else{
-    		if(viewbuffer !== undefined){
-    		  	VIEW = viewbuffer;
-    		  	setupEnv(htmleditor, jseditor, csseditor);
-    		}
+		}else{
+			if( viewbuffer !== undefined && lock === true){
+				VIEW = viewbuffer;
+				lock = false;
+				viewbuffer = undefined;
+				changeView(VIEW);
+			}
+			refresh();
+			setFocus();
     	}
 		addResizable(VIEW);
+		refresh();
+		setFocus();
     }, 500);
 });
 
@@ -488,6 +491,19 @@ $( window ).resize(function() {
 });
 
 /* ------------------------------- Functions ------------------------------- */
+/* Encode/Decode HTML */
+function htmlEncode(value){
+  return $('<div/>').text(value).html();
+}
+function htmlDecode(value){
+  return $('<div/>').html(value).text();
+}
+// function htmlDecode(input){
+//   var e = document.createElement('div');
+//   e.innerHTML = input;
+//   return e.childNodes[0].nodeValue;
+// }
+
 /* Set Logo Color*/
 function setLogoColor(){
 	// Fetch iframe colors
@@ -498,6 +514,9 @@ function setLogoColor(){
 	if(foreground != "transparent" && foreground != "rgba(0, 0, 0, 0)" && background != "transparent" && background != "rgba(0, 0, 0, 0)" && foreground !== background){
 		$("#logo").css('color', foreground);
 		$("#logo").css('backgroundColor', background);
+	}else{
+		$("#logo").css('color', 'black');
+		$("#logo").css('backgroundColor', 'white');
 	}
 }
 
@@ -525,7 +544,7 @@ function setupEnv(htmleditor, jseditor, csseditor){
 		csseditor.focus();
 	}
 
-	// Setup Livecode
+	/* Setup Livecode */
 	var reg = /^\d+$/;
 	if(reg.test(DELAY)){
 		$("#livecode_input").val(DELAY);
@@ -586,13 +605,24 @@ function addResizable(view){
 	if (cssEditor.hasClass("ui-resizable")){
 		cssEditor.resizable("destroy");
 	}
+
 	$(" .html-editor, .css-editor, .js-editor, #result_box").removeAttr("style");
 	if(VIEW === "side-by-side"){
 		$(" #tabs-3").css("width", "50%");
+		if(ACTIVE === "html"){ $(".css-editor, .js-editor").css("display", "none"); }
+		if(ACTIVE === "js"){ $(".html-editor, .css-editor").css("display", "none"); }
+		if(ACTIVE === "css"){ $(".html-editor, .js-editor").css("display", "none"); }
 	}else if(VIEW === "top-and-bottom"){
 		$(" #tabs-3").css("width", "100%");
+		if(ACTIVE === "html"){ $(".css-editor, .js-editor").css("display", "none"); }
+		if(ACTIVE === "js"){ $(".html-editor, .css-editor").css("display", "none"); }
+		if(ACTIVE === "css"){ $(".html-editor, .js-editor").css("display", "none"); }
 	}else if(VIEW === "tabbed"){
 		$(" #tabs-4").css("width", "100%");
+		if(ACTIVE === "html"){ $(".css-editor, .js-editor, #result_box").css("display", "none"); }
+		if(ACTIVE === "js"){ $(".html-editor, .css-editor, #result_box").css("display", "none"); }
+		if(ACTIVE === "css"){ $(".html-editor, .js-editor, #result_box").css("display", "none"); }
+		if(ACTIVE === "result"){ $(".html-editor, .js-editor, .css-editor").css("display", "none"); }
 	}
 
 	var title = $("header h2").text();
@@ -916,38 +946,82 @@ function removeExternalUri(element){
 	element.parent().slideUp(500, function() { $(this).remove(); } );
 }
 
+function clearResource(){
+	$('#external_resource_input').nextAll('div').remove();
+}
+function setResource(resources){
+	if(resources !== ""){
+		//var resource = resources.split("\n");
+		for(i=0; i<resources.length; i++){
+			$("#external_resource_input").after($("<div class='external_resource_list external_resource_list_translate'>" +
+			"<input type='text' name='External Resource' value='" + resources[i] + "'>" +
+			"<div class='external_resource_list_div_added'><img class='external_resource_list_img_added' src='media/icons/plus.png'></div>" +
+			"</div>"));
+			// console.log(i + " " + resource[i]);
+		}
+	}
+}
+
+function renderFile(result, htmleditor, jseditor, csseditor){
+	try{
+		// Get metadata
+		var theme = result.split('data-theme="')[1].split('"')[0];
+		var view = result.split('data-view="')[1].split('"')[0];
+		var active = result.split('data-active="')[1].split('"')[0];
+		var livecode = result.split('data-livecode="')[1].split('"')[0];
+		var delay = result.split('data-delay="')[1].split('"')[0];
+
+		// Get style resources
+		var style = result.split("<link rel='stylesheet' href='");
+		style.shift();
+		for(let i=0; i<style.length; i++){
+			style[i] = style[i].split("'")[0];
+			console.log(style[i]);
+		}
+
+		// Get script resources
+		var script = result.split("<script src='");
+		script.shift();
+		for(var i=0; i<script.length; i++){
+			script[i] = script[i].split("'")[0];
+			console.log(script[i]);
+		}
+
+		// Get HTML, JS and CSS
+		var html = result.split("<body>\n")[1].split("\n</body>")[0];
+		var js = result.split("<script>\n")[1].split("\n</script>")[0];
+		var css = result.split("<style>\n")[1].split("\n</style>")[0];
+	}catch(err){
+		alert("Invaid File");
+		return false;
+	}
+
+	// Render data to display
+	THEME = theme;
+	if(!Modernizr.mq('(max-width: 840px)')){ VIEW = view; }
+	ACTIVE = active;
+	LIVECODE = livecode;
+	DELAY =  delay;
+
+	clearResource();
+	setResource(style);
+	setResource(script);
+
+	htmleditor.getDoc().setValue(html);
+	jseditor.getDoc().setValue(js);
+	csseditor.getDoc().setValue(css);
+
+	setupEnv(htmleditor, jseditor, csseditor);
+	execute(htmleditor, jseditor, csseditor);
+
+}
+
 function loadFileAJAX(file, htmleditor, jseditor, csseditor){
 	$.ajax({
-        url: "projects/" + file + ".txt",
+        url: "projects/" + file + ".html",
         async: true,
         success: function (data){
-    		var result = data.replace(/\r\n/g, "\n").split("```");
-
-			if(result.length < 2){
-				alert("Invalid File");
-				return;
-			}
-
-			for(i=0; i<result.length; i++){
-
-				if(i === 0){
-					result[i] = result[i].slice(0, -1);
-				}
-				else{
-					result[i] = result[i].slice(1, -1);
-				}
-			}
-
-			$("header h2").text(result[0]);
-			setResource(result[1]);
-			htmleditor.getDoc().setValue(result[2]);
-			jseditor.getDoc().setValue(result[3]);
-			csseditor.getDoc().setValue(result[4]);
-			if(result[5]){  ACTIVE = result[5];  }
-			if(result[6]){  THEME = result[6];   }
-			if(result[7] && !Modernizr.mq('(max-width: 840px)')){  VIEW = result[7];    }
-			setupEnv(htmleditor, jseditor, csseditor);
-			execute(htmleditor, jseditor, csseditor);
+			renderFile(data, htmleditor, jseditor, csseditor);
 		},
 		error: function(){
 			alert("Invalid File");
@@ -962,88 +1036,61 @@ function loadFile(htmleditor, jseditor, csseditor){
 	    var reader = new FileReader();
 	    reader.readAsText(file, "UTF-8");
 	    reader.onload = function (evt) {
-
-			var result = evt.target.result.replace(/\r\n/g, "\n").split("```");
-
-			if(result.length < 2){
-				alert("Invalid File");
-				return;
-			}
-
-			for(i=0; i<result.length; i++){
-
-				if(i === 0){
-					result[i] = result[i].slice(0, -1);
-				}
-				else{
-					result[i] = result[i].slice(1, -1);
-				}
-				// console.log(i + " " + result[i]);
-			}
-			$("header h2").text(result[0]);
-			setResource(result[1]);
-			htmleditor.getDoc().setValue(result[2]);
-			jseditor.getDoc().setValue(result[3]);
-			csseditor.getDoc().setValue(result[4]);
-			if(result[5]){  ACTIVE = result[5];  };
-			if(result[6]){  THEME = result[6];   }
-			if(result[7]){  VIEW = result[7];    }
-			if(result[8]){  LIVECODE = result[8];    }
-			if(result[9]){  DELAY = result[9];    }
-			setupEnv(htmleditor, jseditor, csseditor);
-			execute(htmleditor, jseditor, csseditor);
-			console.log("load file success");
+			result = evt.target.result;
+			renderFile(result, htmleditor, jseditor, csseditor);
 	    }
 	    reader.onerror = function (evt) {
-	        console.log("error reading file");
+	        alert("Error reading file");
+			setupEnv(htmleditor, jseditor, csseditor);
 	    }
 	}
 }
 
-function setResource(resources){
-	$('#external_resource_input').nextAll('div').remove();
-
-	if(resources !== ""){
-		var resource = resources.split("\n");
-		for(i=0; i<resource.length; i++){
-			$("#external_resource_input").after($("<div class='external_resource_list external_resource_list_translate'>" +
-			"<input type='text' name='External Resource' value='" + resource[i] + "'>" +
-			"<div class='external_resource_list_div_added'><img class='external_resource_list_img_added' src='media/icons/plus.png'></div>" +
-			"</div>"));
-			// console.log(i + " " + resource[i]);
-		}
-	}
-}
-
-function saveFile(htmleditor, jseditor, csseditor){
+function saveFile(htmleditor,jseditor,csseditor){
 	if($("#file-name").val()){
 		var filename = $("#file-name").val();
 		$("#savefile").removeClass("show-save-dialog");
 
 		$("header h2").text(filename);
-		var newfile = filename + "\n```\n" + 
-					  getResource("plain") + "\n```\n" + 
-					  htmleditor.getValue() + "\n```\n" + 
-					  jseditor.getValue() + "\n```\n" + 
-					  csseditor.getValue() + "\n```\n" + 
-					  ACTIVE + "\n```\n" + 
-					  THEME +  "\n```\n" + 
-					  VIEW + "\n```\n" +
-					  LIVECODE + "\n```\n" +
-					  DELAY + "\n";
-		//var newfile = { "filename":filename, "resources":getResource("plain") };
+
+		var resource = getResource("with_tags");		
+
+		var newfile = 
+			'<!doctype html>\n' +
+			'<html lang="en">\n' +
+
+			'<head>\n' +
+			'	<meta charset = "utf-8">\n' +
+			'	<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' + 
+			'	<meta name="code-playground" content="Code Playground"\n' +
+			'		data-theme="' + THEME + '"\n' +
+			'		data-view="' + VIEW + '"\n' +
+			'		data-active="' + ACTIVE + '"\n' + 
+			'		data-livecode="' + LIVECODE + '"\n' + 
+			'		data-delay="' + DELAY + '"\n' + 
+			'	/>\n' +
+			'	' + resource + '\n' +
+			'</head>\n' +
+
+			'<body>\n' +
+			htmleditor.getValue() + '\n' +
+			'</body>\n\n' +
+
+			'<style>\n' +
+			csseditor.getValue() + '\n' +
+			'</style>\n' +
+
+			'<scr' + 'ipt>\n' +
+			jseditor.getValue() + '\n' +
+			'</scr' + 'ipt>\n' +
+
+			'</html>'
 		var blob = new Blob([newfile], {type: "text/plain"});
-		saveAs(blob, filename + ".txt");
+		saveAs(blob, filename + ".html");
 	}
 	else{
 		$("#file-name").addClass("input-alert");
 	}
-}
-
-function htmlDecode(input){
-  var e = document.createElement('div');
-  e.innerHTML = input;
-  return e.childNodes[0].nodeValue;
 }
 
 function execute(htmleditor,jseditor,csseditor){
@@ -1103,12 +1150,13 @@ function getResource(type){
 function clearContents(htmleditor, jseditor, csseditor){
 	var result = confirm("Are you sure you wish to clear everything? Any unsaved changes will be lost.");
 	if (result) {
-		setResource("https://code.jquery.com/jquery-3.2.1.min.js");
+		clearResource();
+		setResource(["https://code.jquery.com/jquery-3.2.1.min.js"]);
 		htmleditor.getDoc().setValue("");
 		jseditor.getDoc().setValue("");
 		csseditor.getDoc().setValue("");
-		$('#result_box iframe').html("");
 		$("header h2").text("Code Playground");
+		execute(htmleditor,jseditor,csseditor);
 	}
 }
 
