@@ -81,23 +81,18 @@ $(document).ready(function(){
 	$.getJSON("config.txt", function(data){
 		if(data.theme){
 			THEME = data.theme;
-			console.log(THEME);
 		}
 		if(data.view){
 			VIEW = data.view;
-			console.log(VIEW);
 		}
 		if(data.active){
 			ACTIVE = data.active;
-			console.log(ACTIVE);
 		}
 		if(data.livecode){
 			LIVECODE = data.livecode;
-			console.log(LIVECODE);
 		}
 		if(data.delay){
 			DELAY = data.delay;
-			console.log(DELAY);
 		}
 	});
 	$.ajaxSetup({  async: true  });
@@ -498,11 +493,6 @@ function htmlEncode(value){
 function htmlDecode(value){
   return $('<div/>').html(value).text();
 }
-// function htmlDecode(input){
-//   var e = document.createElement('div');
-//   e.innerHTML = input;
-//   return e.childNodes[0].nodeValue;
-// }
 
 /* Set Logo Color*/
 function setLogoColor(){
@@ -913,28 +903,24 @@ function changeView(value, allowlowres){
 
 function addExternalUri(){
 	if($("#external_resource_input input").val()){
-		// if($("#external_resource_input input").val().endsWith(".js") || $("#external_resource_input input").val().endsWith(".css")){
-			input_uri = $("#external_resource_input input").val();
+		input_uri = $("#external_resource_input input").val();
 
-			$("#external_resource_input").after($("<div class='external_resource_list'>" +
-			"<input type='text' name='External Resource' value='" + input_uri + "'>" +
-			"<div><img src='media/icons/plus.png'></div>" +
-			"</div>"));
-			$(".external_resource_list_translate").removeClass("external_resource_list_translate");
+		$("#external_resource_input").after($("<div class='external_resource_list'>" +
+		"<input type='text' name='External Resource' value='" + input_uri + "'>" +
+		"<div><img src='media/icons/plus.png'></div>" +
+		"</div>"));
+		$(".external_resource_list_translate").removeClass("external_resource_list_translate");
 
 
-			this_item = $("#external_resource_input").next("div");
-			list_items = $("#external_resource_input").nextAll("div");
-			setTimeout(function(){
-				this_item.find("img").addClass("external_resource_list_img_added");
-				this_item.children("div").addClass("external_resource_list_div_added");
-				list_items.addClass("external_resource_list_translate");
-			}, 50);
-			$("#external_resource_input input").val("");
-			$("#external_resource_input input").focus();
-		// }else{
-		// 	$("#external_resource_input input").addClass("input-alert");
-		// }
+		this_item = $("#external_resource_input").next("div");
+		list_items = $("#external_resource_input").nextAll("div");
+		setTimeout(function(){
+			this_item.find("img").addClass("external_resource_list_img_added");
+			this_item.children("div").addClass("external_resource_list_div_added");
+			list_items.addClass("external_resource_list_translate");
+		}, 50);
+		$("#external_resource_input input").val("");
+		$("#external_resource_input input").focus();
 	}else{
 		$("#external_resource_input input").addClass("input-alert");
 	}
@@ -957,59 +943,83 @@ function setResource(resources){
 			"<input type='text' name='External Resource' value='" + resources[i] + "'>" +
 			"<div class='external_resource_list_div_added'><img class='external_resource_list_img_added' src='media/icons/plus.png'></div>" +
 			"</div>"));
-			// console.log(i + " " + resource[i]);
 		}
 	}
 }
 
 function renderFile(result, htmleditor, jseditor, csseditor){
-	try{
-		// Get metadata
-		var theme = result.split('data-theme="')[1].split('"')[0];
-		var view = result.split('data-view="')[1].split('"')[0];
-		var active = result.split('data-active="')[1].split('"')[0];
-		var livecode = result.split('data-livecode="')[1].split('"')[0];
-		var delay = result.split('data-delay="')[1].split('"')[0];
+	// Initialize flag
+	var fg = 0;
 
-		// Get style resources
-		var style = result.split("<link rel='stylesheet' href='");
-		style.shift();
-		for(let i=0; i<style.length; i++){
+	// Get metadata
+	var theme    = result.split('data-theme="')[1];
+	var view     = result.split('data-view="')[1].split('"')[0];
+	var active   = result.split('data-active="')[1].split('"')[0];
+	var livecode = result.split('data-livecode="')[1].split('"')[0];
+	var delay    = result.split('data-delay="')[1].split('"')[0];
+
+	if(theme)   { theme    = theme.split('"')[0];    }else{ console.error("Theme metadata not found"); fg++; }
+	if(view)    { view     = view.split('"')[0];     }else{ console.error("View metadata not found"); fg++; }
+	if(active)  { active   = active.split('"')[0];   }else{ console.error("Active metadata not found"); fg++; }
+	if(livecode){ livecode = livecode.split('"')[0]; }else{ console.error("Livecode metadata not found"); fg++; }
+	if(delay)   { delay    = delay.split('"')[0];    }else{ console.error("Delay metadata not found"); fg++; }
+
+	// Get style resources
+	var style = result.split("<link rel='stylesheet' href='");
+	style.shift();
+	for(let i=0; i<style.length; i++){
+		if(style[i]){
 			style[i] = style[i].split("'")[0];
-			console.log(style[i]);
+		}else{
+			console.error("Bad stylesheet format, failed to load stylesheet " + i);
+			fg++;
 		}
+	}
 
-		// Get script resources
-		var script = result.split("<script src='");
-		script.shift();
-		for(var i=0; i<script.length; i++){
-			script[i] = script[i].split("'")[0];
-			console.log(script[i]);
+	// Get script resources
+	var script = result.split("<script src='");
+	script.shift();
+	for(let i=0; i<script.length; i++){
+		if(script[i]){
+		script[i] = script[i].split("'")[0];
+		}else{
+			console.error("Bad stylesheet format, failed to load script " + i);	
+		    fg++;			
 		}
+	}
 
-		// Get HTML, JS and CSS
-		var html = result.split("<body>\n")[1].split("\n</body>")[0];
-		var js = result.split("<script>\n")[1].split("\n</script>")[0];
-		var css = result.split("<style>\n")[1].split("\n</style>")[0];
-	}catch(err){
-		alert("Invaid File");
-		return false;
+	// Get HTML, JS and CSS
+	var html = result.split("<body>\n")[1]
+		if(html){ html = html.split("\n</body>")[0]; }else{ console.error("Failed to load HTML"); fg++; }
+	var js = result.split("<script>\n")[1];
+		if(js){ js = js.split("\n</script>")[0] }else{ console.error("Failed to load JS"); fg++; }
+	var css = result.split("<style>\n")[1];
+		if(css){ css = css.split("\n</style>")[0] }else{ console.error("Failed to load CSS"); fg++; }
+
+	if(fg > 0){
+		if(fg === 1){
+			alert("There is " + fg + " error, check console for details.");
+		}else{
+			alert("There are " + fg + " errors, check console for details.");
+		}
 	}
 
 	// Render data to display
-	THEME = theme;
-	if(!Modernizr.mq('(max-width: 840px)')){ VIEW = view; }
-	ACTIVE = active;
-	LIVECODE = livecode;
-	DELAY =  delay;
+	if(theme)   { 	THEME = theme; }
+	if(view)    { if(!Modernizr.mq('(max-width: 840px)')){ VIEW = view; } }
+	if(active)  { ACTIVE = active; }
+	if(livecode){ LIVECODE = livecode; }
+	if(delay)   { DELAY =  delay; }
 
-	clearResource();
-	setResource(style);
-	setResource(script);
+	if(style && script){
+		clearResource();
+		setResource(style);
+		setResource(script);
+	}
 
-	htmleditor.getDoc().setValue(html);
-	jseditor.getDoc().setValue(js);
-	csseditor.getDoc().setValue(css);
+	if(html){ htmleditor.getDoc().setValue(html); }
+	if(js)  {	jseditor.getDoc().setValue(js); }
+	if(css) { csseditor.getDoc().setValue(css); }
 
 	setupEnv(htmleditor, jseditor, csseditor);
 	execute(htmleditor, jseditor, csseditor);
@@ -1131,10 +1141,8 @@ function getResource(type){
 
 	if(type == "with_tags"){
 		for(var i = 0; i< resources.length; i++){
-			// if(resources[i].slice(resources[i].length - 3, resources[i].length) === ".js"){
 			if(resources[i].toLowerCase().indexOf("js") >= 0){
 				resources[i] = "<scr" + "ipt src='" + resources[i] + "'></scr" + "ipt>";
-			// }else if(resources[i].slice(resources[i].length - 4,resources[i].length) === ".css"){
 			}else if(resources[i].toLowerCase().indexOf("css") >= 0){
 				resources[i] = "<link rel='stylesheet' href='" + resources[i] + "'>"
 			}
@@ -1250,25 +1258,6 @@ function switchTab(element, view){
 			resultBox.show();
 		}
 	}
-
-	// if(!$(element).hasClass("active-li")){
-	// 	// Clear Active
-	// 	clearActiveTab();
-
-	// 	//Set active class
-	// 	$(element).addClass("active-li");
-	// 	if(!show){
-	// 		$(".CodeMirror:nth-child(1), .CodeMirror:nth-child(2), .CodeMirror:nth-child(3)").hide();
-	// 	}
-	// 	// Switch active window
-	// 	var id = $(element).index() + 1;
-	// 	$(".CodeMirror:nth-child(" + id + ")").show();
-
-	// 	// Set ACTIVE variable
-	// 	if($(element).text().toLowerCase() !== "result"){
-	// 		ACTIVE = $(element).text().toLowerCase();
-	// 	}
-	// }
 }
 
 function clearTheme(){
@@ -1277,8 +1266,6 @@ function clearTheme(){
 
 function changeTheme(value, htmleditor, jseditor, csseditor){
 	clearTheme();
-
-	console.log(value);
 
 	if(value === "eclipse"){
 		htmleditor.setOption("theme", "eclipse");
