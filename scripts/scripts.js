@@ -951,6 +951,13 @@ function renderFile(result, htmleditor, jseditor, csseditor){
 	// Initialize flag
 	var fg = 0;
 
+	// Get title
+	var title = result.split('<title>')[1];
+	if(title){ 
+		title = title.split('</title>')[0]; 
+		document.title = title + " - Code Playground";
+	}
+
 	// Get metadata
 	var theme    = result.split('data-theme="')[1];
 	var view     = result.split('data-view="')[1].split('"')[0];
@@ -1070,6 +1077,7 @@ function saveFile(htmleditor,jseditor,csseditor){
 			'<html lang="en">\n' +
 
 			'<head>\n' +
+			'	<title>' + filename + '</title>\n' +
 			'	<meta charset = "utf-8">\n' +
 			'	<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' + 
 			'	<meta name="code-playground" content="Code Playground"\n' +
@@ -1094,7 +1102,8 @@ function saveFile(htmleditor,jseditor,csseditor){
 			jseditor.getValue() + '\n' +
 			'</scr' + 'ipt>\n' +
 
-			'</html>'
+			'</html>';
+
 		var blob = new Blob([newfile], {type: "text/plain"});
 		saveAs(blob, filename + ".html");
 	}
@@ -1104,28 +1113,40 @@ function saveFile(htmleditor,jseditor,csseditor){
 }
 
 function execute(htmleditor,jseditor,csseditor){
-
 	var resource = getResource("with_tags");
 	var iframe = $("#result_iframe");
 
 	content =
-'<!doctype html>' +
-'<html lang="en">' +
-	'<head>' +
-		'<meta charset = "utf-8">' +
-		resource +
-	'</head>' +
-	'<body>' +
-		htmleditor.getValue() +
-	'</body>' +
+			'<!doctype html>\n' +
+			'<html lang="en">\n' +
 
-	'<style>' +
-		csseditor.getValue() +
-	'</style>' +
-	'<scr' + 'ipt>' +
-		jseditor.getValue() +
-	'</scr' + 'ipt>' +
-'</html>'
+			'<head>\n' +
+			'	<title>Code Playground</title>\n' +
+			'	<meta charset = "utf-8">\n' +
+			'	<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' + 
+			'	<meta name="code-playground" content="Code Playground"\n' +
+			'		data-theme="' + THEME + '"\n' +
+			'		data-view="' + VIEW + '"\n' +
+			'		data-active="' + ACTIVE + '"\n' + 
+			'		data-livecode="' + LIVECODE + '"\n' + 
+			'		data-delay="' + DELAY + '"\n' + 
+			'	/>\n' +
+			'	' + resource + '\n' +
+			'</head>\n' +
+
+			'<body>\n' +
+			htmleditor.getValue() + '\n' +
+			'</body>\n\n' +
+
+			'<style>\n' +
+			csseditor.getValue() + '\n' +
+			'</style>\n' +
+
+			'<scr' + 'ipt>\n' +
+			jseditor.getValue() + '\n' +
+			'</scr' + 'ipt>\n' +
+
+			'</html>';
 
 	iframe.srcdoc = content;
 	srcDoc.set( $('#result_box iframe')[0] , content );
